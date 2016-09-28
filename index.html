@@ -101,25 +101,25 @@ a#downloadLink {
 
 <div class="container">
 
-		<div class="row">
-			<div class="col-lg-12 col-md-12 main">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 main">
 
-      <div class="step1">	
+      <div class="step1"> 
         <div class="col-md-6">
-				<p>Step 1: Record Webcam Video</p>
-				<div id="clockdiv">
+        <p>Step 1: Record Webcam Video</p>
+        <div id="clockdiv">
 
          <div>Set Duration: <!--<input type="range" id="vidLength" value="15" min="1" max="15">
        </div>-->
        <div id="durationSlider"></div></div>
           Time Remaining: <span class="seconds" id="countdown">15</span>
-				</div><br>
+        </div><br>
 
-					<video id="recordVid" controls autoplay muted="muted"></video><br>
+          <video id="recordVid" controls autoplay muted="muted"></video><br>
 
-					<button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
-					<!--<button id="pauseRes" class="ui-button" onclick="onPauseResumeClicked()" disabled>Pause</button>-->
-					<!--<button id="stop" class="ui-button" onclick="onBtnStopClicked()" disabled>Stop</button>-->
+          <button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
+          <!--<button id="pauseRes" class="ui-button" onclick="onPauseResumeClicked()" disabled>Pause</button>-->
+          <!--<button id="stop" class="ui-button" onclick="onBtnStopClicked()" disabled>Stop</button>-->
         </div><!--END COL-->
         </div><!--END STEP 1-->
 
@@ -176,6 +176,7 @@ a#downloadLink {
 <div id="authorNameFinal"></div>
 <video id="recorded-final" autoplay loop></video>
 <img src="https://www.digitalgov.gov/files/2015/04/400-x-72-fb-twitter-email-plus-sign.jpg"/ style="width:60%;">
+<br><br><button id="redo" class="ui-button btn btn-primary">Redo</button>
 
 </div><!--END COL-->
 </div><!--END STEP 3-->
@@ -184,16 +185,16 @@ a#downloadLink {
 
 
 
-				</div><!--END COL-->
+        </div><!--END COL-->
 
 
-				</div><!--END ROW-->
+        </div><!--END ROW-->
 
 
 
-			<a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a> 
+      <a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a> 
 
-			</div><!--END CONTAINER-->
+      </div><!--END CONTAINER-->
 
 
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
