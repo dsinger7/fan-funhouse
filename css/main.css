@@ -1,0 +1,232 @@
+/*NEW CSS*/
+.ui-button{
+  font-size:24px;
+}
+
+.btn{
+    box-shadow: 2px 2px 4px #888888;
+    border-radius:2px;
+}
+
+.btn:active{
+  box-shadow:0px 1px 0px;
+  top:3px;
+}
+
+.ui-btn{
+  font-size:16px !important;
+}
+
+ #toggleVid{
+  background:#000000 !important; 
+}
+ #toggleVid:hover{
+  background:#333333 !important; 
+}
+
+
+#editStatus{
+  padding: 10px;
+  border-radius: 2px;
+  border:1px solid #78909c;
+  background: #78909c;
+  display: inline-block;
+  font-family: sans-serif;
+  color: #fff;
+  font-weight: 90;
+  font-size: 24px;
+  /* width:90%; */
+  width:320px;
+}
+
+#editCol{
+  margin-top:10px;
+}
+
+.effectsPanel{
+margin-top:70px;
+}
+
+.effectPanel1,.effectPanel2,.effectPanel3{
+  height:100px;
+  border:1px solid black;
+}
+
+#newSlider1,#newSlider2,#newSlider3{
+  margin-top:40px;
+  font-size:10px;
+}
+
+.deleteEffect{
+  float:right;
+  font-size:24px;
+  padding-right: 10px;
+  transition:all 1s;
+}
+
+.deleteEffect:hover{
+  transform:scale(1.2);
+  cursor:pointer;
+}
+
+/*STEP 2 VIDEO CONTROLS*/
+
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+   appearance: none;
+  width: 320px;
+  height: 30px;
+  z-index: 2;
+}
+
+progress[value]::-webkit-progress-bar {
+  position:relative;
+  background-color: #eee;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  z-index: 2;
+}
+
+progress[value]::-webkit-progress-value {
+  background-color: #00e676;
+}
+
+#remix-marker{
+  position:absolute;
+  top:68px;
+  left:50px;
+  width:6px;
+  height:40px;
+  background-color:#e60070;
+}
+
+#remix-wrapper{
+  position: relative;
+}
+
+/*STATE CHANGES*/
+
+.step1,.step2,.step3{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+}
+
+.step1{
+  opacity:1;
+}
+
+.step2,.step3{
+  display:none;
+}
+
+
+
+/*TIMER*/
+#clockdiv{
+    font-family: sans-serif;
+    color: #fff;
+    display: inline-block;
+    font-weight: 100;
+    font-size: 24px;
+    padding: 15px;
+    border-radius: 2px;
+    border:1px solid #78909c;
+    background: #78909c;
+    /*width:320px;*/
+    width:73%;
+}
+
+
+.seconds{
+    text-align: center;
+}
+
+#spinner{
+  display:inline-block;
+}
+.setLength{
+  color:black;
+  width:40%;
+}
+#setVidLength{
+  color:black;
+}
+
+/*PUBLISH*/
+#vidNameFinal{
+  font-size: 32px;
+}
+
+#authorNameFinal{
+  font-size: 24px;
+}
+
+/*NEW CSS END*/
+
+body {
+  font-family: sans-serif;
+  font-weight: 300;
+}
+
+a {
+  color: #4183C4;
+  font-weight: 300;
+  text-decoration: none;
+}
+
+
+
+audio {
+  max-width: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 1em;
+  word-break: break-word;
+}
+
+canvas {
+  background-color: #ccc;
+  max-width: 100%;
+  width: 100%;
+}
+
+code {
+  font-family: sans-serif;
+  font-weight: 300;
+}
+
+
+
+html {
+/* avoid annoying page width change
+when moving from the home page */
+overflow-y: scroll;
+}
+
+img {
+  border: none;
+  max-width: 100%;
+}
+
+
+
+p {
+  color: #444;
+  font-weight: 300;
+  line-height: 1.6em;
+}
+
+
+video {
+  background: #222;
+   margin: 10px auto; 
+  width: 320px;
+  height:240px;
+}
+

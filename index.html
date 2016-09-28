@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="author" content="//samdutton.com">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta id="theme-color" name="theme-color" content="#fff">
+
+<base target="_blank">
+
+<title>Master's Project App Test 1</title>
+
+ <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'>
+
+
+<script src="libraries/p5.js"></script>
+<script src="libraries/p5.dom.js"></script>
+<script src="libraries/p5.sound.js"></script>
+<script src="libraries/seriously.js"></script>
+<script src="libraries/effects/seriously.blur.js"></script>
+<script src="libraries/effects/seriously.chroma.js"></script>
+<script src="libraries/effects/seriously.checkerboard.js"></script>
+<script src="libraries/effects/seriously.kaleidoscope.js"></script>
+<script src="libraries/effects/seriously.nightvision.js"></script>
+<script src="libraries/effects/seriously.noise.js"></script>
+<script src="libraries/effects/seriously.tvglitch.js"></script>
+
+<script src="libraries/effects/seriously.accumulator.js"></script>
+<script src="libraries/effects/seriously.ascii.js"></script>
+<script src="libraries/effects/seriously.bleach-bypass.js"></script>
+<script src="libraries/effects/seriously.blend.js"></script>
+<script src="libraries/effects/seriously.brightness-contrast.js"></script>
+<script src="libraries/effects/seriously.channels.js"></script>
+<script src="libraries/effects/seriously.color-select.js"></script>
+<script src="libraries/effects/seriously.color.js"></script>
+<script src="libraries/effects/seriously.colorcomplements.js"></script>
+<script src="libraries/effects/seriously.colorcube.js"></script>
+<script src="libraries/effects/seriously.crop.js"></script>
+<script src="libraries/effects/seriously.daltonize.js"></script>
+<script src="libraries/effects/seriously.directionblur.js"></script>
+<script src="libraries/effects/seriously.displacement.js"></script>
+<script src="libraries/effects/seriously.dither.js"></script>
+<script src="libraries/effects/seriously.edge.js"></script>
+<script src="libraries/effects/seriously.emboss.js"></script>
+<script src="libraries/effects/seriously.exposure.js"></script>
+<script src="libraries/effects/seriously.expression.js"></script>
+<script src="libraries/effects/seriously.fader.js"></script>
+<script src="libraries/effects/seriously.falsecolor.js"></script>
+<script src="libraries/effects/seriously.filmgrain.js"></script>
+<script src="libraries/effects/seriously.freeze.js"></script>
+<script src="libraries/effects/seriously.fxaa.js"></script>
+<script src="libraries/effects/seriously.gradientwipe.js"></script>
+<script src="libraries/effects/seriously.hex.js"></script>
+<script src="libraries/effects/seriously.highlights-shadows.js"></script>
+<script src="libraries/effects/seriously.hue-saturation.js"></script>
+<script src="libraries/effects/seriously.invert.js"></script>
+<script src="libraries/effects/seriously.layers.js"></script>
+<script src="libraries/effects/seriously.linear-transfer.js"></script>
+<script src="libraries/effects/seriously.lumakey.js"></script>
+<script src="libraries/effects/seriously.lut.js"></script>
+<script src="libraries/effects/seriously.mirror.js"></script>
+<script src="libraries/effects/seriously.opticalflow.js"></script>
+<script src="libraries/effects/seriously.panorama.js"></script>
+<script src="libraries/effects/seriously.pixelate.js"></script>
+<script src="libraries/effects/seriously.polar.js"></script>
+<script src="libraries/effects/seriously.repeat.js"></script>
+<script src="libraries/effects/seriously.ripple.js"></script>
+<script src="libraries/effects/seriously.scanlines.js"></script>
+<script src="libraries/effects/seriously.select.js"></script>
+<script src="libraries/effects/seriously.sepia.js"></script>
+<script src="libraries/effects/seriously.simplex.js"></script>
+<script src="libraries/effects/seriously.sketch.js"></script>
+<script src="libraries/effects/seriously.split.js"></script>
+<script src="libraries/effects/seriously.temperature.js"></script>
+<script src="libraries/effects/seriously.throttle.js"></script>
+<script src="libraries/effects/seriously.tone.js"></script>
+<script src="libraries/effects/seriously.vibrance.js"></script>
+<script src="libraries/effects/seriously.vignette.js"></script>
+<script src="libraries/effects/seriously.whitebalance.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
+
+<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.css"/>
+
+
+<style>
+a#downloadLink {
+  display: block;
+  margin: 0 0 1em 0;
+  min-height: 1.2em;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12 main">
+
+      <div class="step1">	
+        <div class="col-md-6">
+				<p>Step 1: Record Webcam Video</p>
+				<div id="clockdiv">
+
+         <div>Set Duration: <!--<input type="range" id="vidLength" value="15" min="1" max="15">
+       </div>-->
+       <div id="durationSlider"></div></div>
+          Time Remaining: <span class="seconds" id="countdown">15</span>
+				</div><br>
+
+					<video id="recordVid" controls autoplay muted="muted"></video><br>
+
+					<button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
+					<!--<button id="pauseRes" class="ui-button" onclick="onPauseResumeClicked()" disabled>Pause</button>-->
+					<!--<button id="stop" class="ui-button" onclick="onBtnStopClicked()" disabled>Stop</button>-->
+        </div><!--END COL-->
+        </div><!--END STEP 1-->
+
+<div class="step2">
+
+          
+    <div class="col-md-5">
+      <p>Step 2: Apply Effects
+          <div id="editStatus">
+          Status: Waiting for Recording</div> 
+          <div id="editCol"></div>
+
+          <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()">Play</button>
+          <button id="publish" class="ui-button btn btn-primary">Publish</button>
+
+        <div id="remix-wrapper">
+          <br><br><p>Remix Bar:<br>          
+          <progress id="progress" value="0" min="0">
+            <div id="remix-marker"></div>
+          </progress>
+        </div>
+
+          <div class="effectsButtons">
+          Effects:<br> 
+            <button id="glitch" class="btn btn-danger glitch">Glitch</button>
+            <button id="saturate" class="btn btn-info saturate">Saturate</button>
+            <button id="slow" class="btn btn-warning slow">Slow</button>
+            <button id="freeze" class="btn btn-success freeze">Great Job!</button>
+          </div>  
+         <!-- <div id="editPlay"></div>-->  
+        </div><!--END COL-->
+
+   <div class="col-md-7"> 
+   <div class="effectsPanel">
+    <div class="effectPanel1" id="effectPanel1"></div>
+    <div class="effectPanel2" id="effectPanel2"></div>
+    <div class="effectPanel3" id="effectPanel3"></div>
+
+
+   </div><!--END EFFECTS PANEL-->     
+  
+<br><p><b>Video Name:</b> <input id="vidName" type="text" placeholder="Enter video name..."/>
+<p><b>Created By:</b> <input id="authorName" type="text" placeholder="Enter author name..."/>
+
+
+</div><!--END COL-->
+
+</div><!--END STEP 2-->
+
+<div class="step3">
+<div class="col-md-6">
+<p>Step 3: View and Share<br>
+<div id="vidNameFinal"></div> 
+<div id="authorNameFinal"></div>
+<video id="recorded-final" autoplay loop></video>
+<img src="https://www.digitalgov.gov/files/2015/04/400-x-72-fb-twitter-email-plus-sign.jpg"/ style="width:60%;">
+
+</div><!--END COL-->
+</div><!--END STEP 3-->
+
+
+
+
+
+				</div><!--END COL-->
+
+
+				</div><!--END ROW-->
+
+
+
+			<a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a> 
+
+			</div><!--END CONTAINER-->
+
+
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+<script>"https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"</script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'></script>
+<!--<script src="js/jquery.spinner.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js"></script>
+<script src="js/main.js"></script>
+
+
+
+</body>
+</html>
