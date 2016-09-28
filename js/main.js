@@ -109,6 +109,10 @@ publishButton.onclick = publish;
 var myCanvas;
 var canvasPublish;
 
+//Redo state (Step 3)
+var redoButton = document.querySelector('button#redo');
+redoButton.onclick = redo;
+
 
 ///////////////////
 //SECTION 1 BEGINS
@@ -203,10 +207,10 @@ function getBrowser(){
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 if(getBrowser() == "Chrome"){
-	var constraints = {"audio": true, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
+  var constraints = {"audio": true, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
   //var constraints = {"audio": false, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
 }else if(getBrowser() == "Firefox"){
-	var constraints = {audio: true,video: {  width: { min: 320, ideal: 320, max: 1280 },  height: { min: 240, ideal: 240, max: 720 }}}; //Firefox
+  var constraints = {audio: true,video: {  width: { min: 320, ideal: 320, max: 1280 },  height: { min: 240, ideal: 240, max: 720 }}}; //Firefox
 }
 
 function errorCallback(error){
@@ -215,22 +219,22 @@ function errorCallback(error){
 
 //SECTION 1.4: Start MediaRecorder
 function startRecording(stream) {
-	if (typeof MediaRecorder.isTypeSupported == 'function')
-	{
-		/*
-			MediaRecorder.isTypeSupported is a Chrome 49 function announced in https://developers.google.com/web/updates/2016/01/mediarecorder but it's not present in the MediaRecorder API spec http://www.w3.org/TR/mediastream-recording/
+  if (typeof MediaRecorder.isTypeSupported == 'function')
+  {
+    /*
+      MediaRecorder.isTypeSupported is a Chrome 49 function announced in https://developers.google.com/web/updates/2016/01/mediarecorder but it's not present in the MediaRecorder API spec http://www.w3.org/TR/mediastream-recording/
       */
       if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
        var options = {mimeType: 'video/webm;codecs=vp9'};
      } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8')) {
        var options = {mimeType: 'video/webm;codecs=vp8'};
      }
-  	//console.log('Using '+options.mimeType);
+    //console.log('Using '+options.mimeType);
     mediaRecorder = new MediaRecorder(stream, options);
   }else{
-		//console.log('Using default codecs for browser');
-		mediaRecorder = new MediaRecorder(stream);
-	}
+    //console.log('Using default codecs for browser');
+    mediaRecorder = new MediaRecorder(stream);
+  }
 
 //SECTION 1.4.1: Capture webcam stream and push MediaRecorder chunks to a blob. 
 mediaRecorder.start(10);
@@ -345,8 +349,8 @@ function onBtnRecordClicked (){
 }
 }
 function onBtnStopClicked(){
-	mediaRecorder.stop();
-	videoElement.controls = true;
+  mediaRecorder.stop();
+  videoElement.controls = true;
 }
 
 ///////////////////
@@ -1049,3 +1053,23 @@ function finish(){
   videoFinal.controls = true;
 }*/
 
+//SECTION 3.4: Initiate redo state if user wants to redo their edits
+function redo(){
+  $(".step3").fadeOut();    
+  $(".step2").fadeIn();
+  document.getElementById("toggleVid").disabled = false;
+  document.getElementById("publish").disabled = false;
+  document.getElementById("glitch").disabled = false;
+  document.getElementById("saturate").disabled = false;
+  document.getElementById("slow").disabled = false;
+  document.getElementById("freeze").disabled = false;
+  document.getElementById("progress").disabled = false;
+  editStatus.innerHTML = ("Status: Ready to Edit"); 
+  publishButton.innerHTML = ('Publish');
+  $("#toggleVid").html('Pause');
+  videoFinal.pause();
+  videoFinal.src = "";
+  video.play();
+  video.loop();
+  startStream();
+}
