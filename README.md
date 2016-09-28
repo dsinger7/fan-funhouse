@@ -3,7 +3,7 @@ A web-based application for creative video editing
 
 Fan Funhouse is a application that allows users to record brief webcam videos and remix them with playful effects.
 The initial release of this project is being designed with pop culture fandoms in mind, specifically the fandom
-for the comedy due Tim & Eric and their TV shows. When used in this context, Fan Funhouse seeks to open up the 
+for the comedy due Tim & Eric and their various TV shows. When used in this context, Fan Funhouse seeks to open up the 
 process of creative video editing to a wider audience and encourage fans who may lack video software or expertise
 to create user-generated fan media. 
 
