@@ -59,6 +59,14 @@ var greatJobPlayed1 = false;
 var greatJobPlayed2 = false;
 var greatJobPlayed3 = false;
 
+//Stutter variables
+var stutter1Counter = 0;
+var stutter1On = true;
+var stutter2Counter = 0;
+var stutter2On = true;
+var stutter3Counter = 0;
+var stutter3On = true;
+
 //Set up effect sliders
 //NEW SLIDERS
 
@@ -207,10 +215,10 @@ function getBrowser(){
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 if(getBrowser() == "Chrome"){
-  var constraints = {"audio": true, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
+	var constraints = {"audio": true, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
   //var constraints = {"audio": false, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
 }else if(getBrowser() == "Firefox"){
-  var constraints = {audio: true,video: {  width: { min: 320, ideal: 320, max: 1280 },  height: { min: 240, ideal: 240, max: 720 }}}; //Firefox
+	var constraints = {audio: true,video: {  width: { min: 320, ideal: 320, max: 1280 },  height: { min: 240, ideal: 240, max: 720 }}}; //Firefox
 }
 
 function errorCallback(error){
@@ -219,22 +227,22 @@ function errorCallback(error){
 
 //SECTION 1.4: Start MediaRecorder
 function startRecording(stream) {
-  if (typeof MediaRecorder.isTypeSupported == 'function')
-  {
-    /*
-      MediaRecorder.isTypeSupported is a Chrome 49 function announced in https://developers.google.com/web/updates/2016/01/mediarecorder but it's not present in the MediaRecorder API spec http://www.w3.org/TR/mediastream-recording/
+	if (typeof MediaRecorder.isTypeSupported == 'function')
+	{
+		/*
+			MediaRecorder.isTypeSupported is a Chrome 49 function announced in https://developers.google.com/web/updates/2016/01/mediarecorder but it's not present in the MediaRecorder API spec http://www.w3.org/TR/mediastream-recording/
       */
       if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
        var options = {mimeType: 'video/webm;codecs=vp9'};
      } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8')) {
        var options = {mimeType: 'video/webm;codecs=vp8'};
      }
-    //console.log('Using '+options.mimeType);
+  	//console.log('Using '+options.mimeType);
     mediaRecorder = new MediaRecorder(stream, options);
   }else{
-    //console.log('Using default codecs for browser');
-    mediaRecorder = new MediaRecorder(stream);
-  }
+		//console.log('Using default codecs for browser');
+		mediaRecorder = new MediaRecorder(stream);
+	}
 
 //SECTION 1.4.1: Capture webcam stream and push MediaRecorder chunks to a blob. 
 mediaRecorder.start(10);
@@ -349,8 +357,8 @@ function onBtnRecordClicked (){
 }
 }
 function onBtnStopClicked(){
-  mediaRecorder.stop();
-  videoElement.controls = true;
+	mediaRecorder.stop();
+	videoElement.controls = true;
 }
 
 ///////////////////
@@ -398,7 +406,7 @@ function step2(){
     document.getElementById("saturate").disabled = true;
     document.getElementById("slow").disabled = true;
     document.getElementById("freeze").disabled = true;
-    document.getElementById("progress").disabled = true;
+    //document.getElementById("progress").disabled = true;
 //SECTION 2.2.1: Set up p5 video and audio
     video = createVideo([videoURL]);
     video.size(320,240);
@@ -466,27 +474,53 @@ function getDuration(){
     document.getElementById("saturate").disabled = false;
     document.getElementById("slow").disabled = false;
     document.getElementById("freeze").disabled = false;
+
 //SECTION 2.3.1: Configure Remix Bar
+
+/*
+$("#remix-marker").draggabilly({
+axis: 'x',
+containment: '#progress'
+});
+
+$('#remix-marker').on('dragMove',function(event,pointer){
+  markerPos = $("#remix-marker").position();
+  markerPosX = markerPos.left;
+  //console.log(markerPosX);
+  stutterStart = (markerPosX/320) * duration;
+});
+
+
 var progress = document.getElementById("progress");
 progress.setAttribute('max', duration);
 document.getElementById("progress").disabled = false;    
+
 document.getElementById("p5video").addEventListener('timeupdate', function(){
   progress.value = document.getElementById("p5video").currentTime;
 });
-var colOffset = 113;
-progress.addEventListener('click', function(e) {
+*/
+
+//var colOffset = 113;
+
+/* progress.addEventListener('click', function(e) {
   var mouseOffsetX = $(this).offset().left;
   var pos = (e.pageX  - mouseOffsetX) / this.offsetWidth;
   document.getElementById("p5video").currentTime = pos * duration;
       var markerPos = String((pos*320)-3) + "px";//-3 centers the bar
       $("#remix-marker").css("left", markerPos);
-    });
+    }); */
+
 });
 }
 
 //SECTION 2.4: Apply Seriously effects using p5's draw() calls
+
 function draw(){
   if(editMode === true){
+
+    timeCode = video.time();
+
+    
     if(panel1Filled){
      panel1StartEnd = newSlider1.noUiSlider.get();
      panel1Start = panel1StartEnd[0];
@@ -503,7 +537,6 @@ function draw(){
      panel3End = panel3StartEnd[1]; 
    }
 
-   timeCode = video.time();
 
   //SECTION 2.4.1: Seriously "Glitch" effect
   if(panel1Effect === "Glitch"){
@@ -617,7 +650,62 @@ function draw(){
         }        
       } 
     } 
-  //SECTION 2.4.5: No Seriously effects
+  //SECTION 2.4.5: Seriously "Stutter" effect 
+  if(panel1Effect === "Stutter"){  
+  if(stutter1On === false){
+    if(timeCode > 0 && timeCode < 0.05){
+       stutter1On = true;  
+    }
+  }
+  if(stutter1On){
+    if(timeCode >= eval(panel1StartEnd) + 0.1){       
+      stutter1Counter = stutter1Counter + 1;
+      video.time(eval(panel1StartEnd));
+      //console.log(stutter1Counter);
+    } 
+    if(stutter1Counter > 4){
+      stutter1Counter = 0;
+      stutter1On = false;
+    }
+  } 
+}
+if(panel2Effect === "Stutter"){  
+  if(stutter2On === false){
+    if(timeCode > 0 && timeCode < 0.05){
+       stutter2On = true;  
+    }
+  }
+  if(stutter2On){
+    if(timeCode >= eval(panel2StartEnd) + 0.1){       
+      stutter2Counter = stutter2Counter + 1;
+      video.time(eval(panel2StartEnd));
+      //console.log(stutter2Counter);
+    } 
+    if(stutter2Counter > 4){
+      stutter2Counter = 0;
+      stutter2On = false;
+    }
+  } 
+}
+if(panel3Effect === "Stutter"){  
+  if(stutter3On === false){
+    if(timeCode > 0 && timeCode < 0.05){
+       stutter3On = true;  
+    }
+  }
+  if(stutter3On){
+    if(timeCode >= eval(panel3StartEnd) + 0.1){       
+      stutter3Counter = stutter3Counter + 1;
+      video.time(eval(panel3StartEnd));
+      //console.log(stutter3Counter);
+    } 
+    if(stutter3Counter > 4){
+      stutter3Counter = 0;
+      stutter3On = false;
+    }
+  } 
+} 
+  //SECTION 2.4.6: No Seriously effects
   if(timeCode <= panel1Start || timeCode >= panel1End){
     if(timeCode <= panel2Start || timeCode >= panel2End){
       if(timeCode <= panel3Start || timeCode >= panel3End){
@@ -918,7 +1006,66 @@ $(".freeze").on("click",function(){
 }//ELSE for Panel 2
 }//ELSE for Panel 1
 });
-//SECTION 2.5.5: Delete any effect
+//SECTION 2.5.5: Stutter effect sliders
+$(".stutter").on("click",function(){
+  if(panel1Filled === false){
+    panel1Filled = true;
+    panel1Effect = "Stutter";
+    $(".effectPanel1").html("<span class='effectName'>Stutter</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div>");
+    newSlider1 = document.getElementById('newSlider1');
+    noUiSlider.create(newSlider1, {
+      start:[duration/2],
+      tooltips: [true],
+      step:0.01,
+      range:{
+        'min':0,
+        'max':duration
+      }
+    });
+    $("#newSlider1 .noUi-connect").css("background","#5bc0de");
+    panel1StartEnd = newSlider1.noUiSlider.get();
+  } else{
+    if(panel2Filled === false){
+      panel2Filled = true;
+      panel2Effect = "Stutter";
+      $(".effectPanel2").html("<span class='effectName'>Stutter</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div>");
+      newSlider2 = document.getElementById('newSlider2');
+      noUiSlider.create(newSlider2, {
+        start:[duration/2],
+        tooltips: [ true ],
+        step:0.01,
+        range:{
+          'min':0,
+          'max':duration
+        }
+      });
+      $("#newSlider2 .noUi-connect").css("background","#5bc0de");
+      panel2StartEnd = newSlider2.noUiSlider.get();
+    } else{
+      if(panel3Filled === false){
+        panel3Filled = true;
+        panel3Effect = "Stutter";
+        $(".effectPanel3").html("<span class='effectName'>Stutter</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div>");
+        newSlider3 = document.getElementById('newSlider3');
+        noUiSlider.create(newSlider3, {
+          start:[duration/2],
+          tooltips: [ true ],
+          step:0.01,
+          range:{
+            'min':0,
+            'max':duration
+          }
+        });
+        $("#newSlider3 .noUi-connect").css("background","#5bc0de");
+        panel3StartEnd = newSlider3.noUiSlider.get();
+      }
+      else{
+        alert("Please delete an existing effect to add a new one.");
+}//ELSE for Panel 3
+}//ELSE for Panel 2
+}//ELSE for Panel 1
+});
+//SECTION 2.5.6: Delete any effect
 $(document).on("click",".deleteEffect",function(){
   if($(this).parent().attr("id") === "effectPanel1"){
     panel1Filled = false;
