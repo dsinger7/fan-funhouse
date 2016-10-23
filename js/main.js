@@ -215,10 +215,10 @@ function getBrowser(){
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 if(getBrowser() == "Chrome"){
-	var constraints = {"audio": true, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
+  var constraints = {"audio": true, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
   //var constraints = {"audio": false, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
 }else if(getBrowser() == "Firefox"){
-	var constraints = {audio: true,video: {  width: { min: 320, ideal: 320, max: 1280 },  height: { min: 240, ideal: 240, max: 720 }}}; //Firefox
+  var constraints = {audio: true,video: {  width: { min: 320, ideal: 320, max: 1280 },  height: { min: 240, ideal: 240, max: 720 }}}; //Firefox
 }
 
 function errorCallback(error){
@@ -227,22 +227,22 @@ function errorCallback(error){
 
 //SECTION 1.4: Start MediaRecorder
 function startRecording(stream) {
-	if (typeof MediaRecorder.isTypeSupported == 'function')
-	{
-		/*
-			MediaRecorder.isTypeSupported is a Chrome 49 function announced in https://developers.google.com/web/updates/2016/01/mediarecorder but it's not present in the MediaRecorder API spec http://www.w3.org/TR/mediastream-recording/
+  if (typeof MediaRecorder.isTypeSupported == 'function')
+  {
+    /*
+      MediaRecorder.isTypeSupported is a Chrome 49 function announced in https://developers.google.com/web/updates/2016/01/mediarecorder but it's not present in the MediaRecorder API spec http://www.w3.org/TR/mediastream-recording/
       */
       if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
        var options = {mimeType: 'video/webm;codecs=vp9'};
      } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8')) {
        var options = {mimeType: 'video/webm;codecs=vp8'};
      }
-  	//console.log('Using '+options.mimeType);
+    //console.log('Using '+options.mimeType);
     mediaRecorder = new MediaRecorder(stream, options);
   }else{
-		//console.log('Using default codecs for browser');
-		mediaRecorder = new MediaRecorder(stream);
-	}
+    //console.log('Using default codecs for browser');
+    mediaRecorder = new MediaRecorder(stream);
+  }
 
 //SECTION 1.4.1: Capture webcam stream and push MediaRecorder chunks to a blob. 
 mediaRecorder.start(10);
@@ -357,8 +357,8 @@ function onBtnRecordClicked (){
 }
 }
 function onBtnStopClicked(){
-	mediaRecorder.stop();
-	videoElement.controls = true;
+  mediaRecorder.stop();
+  videoElement.controls = true;
 }
 
 ///////////////////
@@ -379,6 +379,7 @@ function toggleVid() {
   if (playing) {
     video.pause();
     $("#toggleVid").html('Play');
+    publishButton.disabled = true;
   } else {
     if(timeReceived){
       video.loop();
@@ -387,6 +388,7 @@ function toggleVid() {
       video.autoplay();
     }
     $("#toggleVid").html('Pause');
+    publishButton.disabled = false;
   }
   playing = !playing;
 }
@@ -406,7 +408,7 @@ function step2(){
     document.getElementById("saturate").disabled = true;
     document.getElementById("slow").disabled = true;
     document.getElementById("freeze").disabled = true;
-    //document.getElementById("progress").disabled = true;
+    document.getElementById("stutter").disabled = true;
 //SECTION 2.2.1: Set up p5 video and audio
     video = createVideo([videoURL]);
     video.size(320,240);
@@ -474,6 +476,7 @@ function getDuration(){
     document.getElementById("saturate").disabled = false;
     document.getElementById("slow").disabled = false;
     document.getElementById("freeze").disabled = false;
+    document.getElementById("stutter").disabled = false;
 
 //SECTION 2.3.1: Configure Remix Bar
 
@@ -504,7 +507,7 @@ document.getElementById("p5video").addEventListener('timeupdate', function(){
 
 /* progress.addEventListener('click', function(e) {
   var mouseOffsetX = $(this).offset().left;
-  var pos = (e.pageX  - mouseOffsetX) / this.offsetWidth;
+  var pos = (e.pageX z - mouseOffsetX) / this.offsetWidth;
   document.getElementById("p5video").currentTime = pos * duration;
       var markerPos = String((pos*320)-3) + "px";//-3 centers the bar
       $("#remix-marker").css("left", markerPos);
@@ -706,9 +709,9 @@ if(panel3Effect === "Stutter"){
   } 
 } 
   //SECTION 2.4.6: No Seriously effects
-  if(timeCode <= panel1Start || timeCode >= panel1End){
-    if(timeCode <= panel2Start || timeCode >= panel2End){
-      if(timeCode <= panel3Start || timeCode >= panel3End){
+  if(timeCode <= panel1Start || timeCode >= panel1End || timeCode >= eval(panel1StartEnd)){
+    if(timeCode <= panel2Start || timeCode >= panel2End || timeCode >= eval(panel2StartEnd)){
+      if(timeCode <= panel3Start || timeCode >= panel3End || timeCode >= eval(panel3StartEnd)){
         target.source = crop;
         hueSaturation.saturation = 0;
         hueSaturation.hue = 0.4;
@@ -723,6 +726,7 @@ if(panel3Effect === "Stutter"){
         greatJobPlayed2 = false;
         greatJobPlayed3 = false;
         document.getElementById("p5video").muted = false;
+
       }
     }
   }
@@ -736,10 +740,10 @@ $(".glitch").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Glitch";
-    $(".effectPanel1").html("<span class='effectName'>Glitch</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div>");
+    $(".effectPanel1").html("<span class='effectName'>Glitch</span> <span><img class='effectImg' src='css/Glitch.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
-      start:[0,duration/2],
+      start:[0,0.5],
       tooltips: [ true, true ],
       step:0.01,
       connect:true,
@@ -756,10 +760,10 @@ $(".glitch").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Glitch";
-      $(".effectPanel2").html("<span class='effectName'>Glitch</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div>");
+      $(".effectPanel2").html("<span class='effectName'>Glitch</span> <span><img class='effectImg' src='css/Glitch.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
-        start:[0,duration/2],
+        start:[0,0.5],
         tooltips: [ true, true ],
         step:0.01,
         connect:true,
@@ -776,10 +780,10 @@ $(".glitch").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Glitch";
-        $(".effectPanel3").html("<span class='effectName'>Glitch</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div>");
+        $(".effectPanel3").html("<span class='effectName'>Glitch</span> <span><img class='effectImg' src='css/Glitch.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
-          start:[0,duration/2],
+          start:[0,0.5],
           tooltips: [ true, true ],
           step:0.01,
           connect:true,
@@ -804,10 +808,10 @@ $(".saturate").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Saturate";
-    $(".effectPanel1").html("<span class='effectName'>Saturate</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div>");
+    $(".effectPanel1").html("<span class='effectName'>Saturate</span> <span><img class='effectImg' src='css/Saturate.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
-      start:[0,duration/2],
+      start:[0,0.5],
       tooltips: [ true, true ],
       step:0.01,
       connect:true,
@@ -824,10 +828,10 @@ $(".saturate").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Saturate";
-      $(".effectPanel2").html("<span class='effectName'>Saturate</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div>");
+      $(".effectPanel2").html("<span class='effectName'>Saturate</span> <span><img class='effectImg' src='css/Saturate.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
-        start:[0,duration/2],
+        start:[0,0.5],
         tooltips: [ true, true ],
         step:0.01,
         connect:true,
@@ -844,11 +848,11 @@ $(".saturate").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Saturate";
-        $(".effectPanel3").html("<span class='effectName'>Saturate</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div>");
+        $(".effectPanel3").html("<span class='effectName'>Saturate</span> <span><img class='effectImg' src='css/Saturate.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
         newSlider3 = document.getElementById('newSlider3');
 
         noUiSlider.create(newSlider3, {
-          start:[0,duration/2],
+          start:[0,0.5],
           tooltips: [ true, true ],
           step:0.01,
           connect:true,
@@ -873,10 +877,10 @@ $(".slow").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Slow";
-    $(".effectPanel1").html("<span class='effectName'>Slow</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div>");
+    $(".effectPanel1").html("<span class='effectName'>Slow</span> <span><img class='effectImg' src='css/Slow.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
-      start:[0,duration/2],
+      start:[0,0.5],
       tooltips: [ true, true ],
       step:0.01,
       connect:true,
@@ -893,10 +897,10 @@ $(".slow").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Slow";
-      $(".effectPanel2").html("<span class='effectName'>Slow</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div>");
+      $(".effectPanel2").html("<span class='effectName'>Slow</span> <span><img class='effectImg' src='css/Slow.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
-        start:[0,duration/2],
+        start:[0,0.5],
         tooltips: [ true, true ],
         step:0.01,
         connect:true,
@@ -913,11 +917,11 @@ $(".slow").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Slow";
-        $(".effectPanel3").html("<span class='effectName'>Slow</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div>");
+        $(".effectPanel3").html("<span class='effectName'>Slow</span> <span><img class='effectImg' src='css/Slow.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
         newSlider3 = document.getElementById('newSlider3');
 
         noUiSlider.create(newSlider3, {
-          start:[0,duration/2],
+          start:[0,0.5],
           tooltips: [ true, true ],
           step:0.01,
           connect:true,
@@ -942,7 +946,7 @@ $(".freeze").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Great Job!";
-    $(".effectPanel1").html("<span class='effectName'>Great Job!</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div>");
+    $(".effectPanel1").html("<span class='effectName'>Great Job!</span> <span><img class='effectImg' src='css/GreatJob.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0,2.55],
@@ -962,7 +966,7 @@ $(".freeze").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Great Job!";
-      $(".effectPanel2").html("<span class='effectName'>Great Job!</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div>");
+      $(".effectPanel2").html("<span class='effectName'>Great Job!</span> <span><img class='effectImg' src='css/GreatJob.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0,2.55],
@@ -982,7 +986,7 @@ $(".freeze").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Great Job!";
-        $(".effectPanel3").html("<span class='effectName'>Great Job!</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div>");
+        $(".effectPanel3").html("<span class='effectName'>Great Job!</span> <span><img class='effectImg' src='css/GreatJob.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
         newSlider3 = document.getElementById('newSlider3');
 
         noUiSlider.create(newSlider3, {
@@ -1011,52 +1015,52 @@ $(".stutter").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Stutter";
-    $(".effectPanel1").html("<span class='effectName'>Stutter</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div>");
+    $(".effectPanel1").html("<span class='effectName'>Stutter</span> <span><img class='effectImg' src='css/Stutter.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
-      start:[duration/2],
+      start:[0.5],
       tooltips: [true],
       step:0.01,
       range:{
-        'min':0,
+        'min':0.05,
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#5bc0de");
+    $("#newSlider1 .noUi-handle").css("background","#0275d8");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Stutter";
-      $(".effectPanel2").html("<span class='effectName'>Stutter</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div>");
+      $(".effectPanel2").html("<span class='effectName'>Stutter</span> <span><img class='effectImg' src='css/Stutter.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
-        start:[duration/2],
+        start:[0.5],
         tooltips: [ true ],
         step:0.01,
         range:{
-          'min':0,
+          'min':0.05,
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#5bc0de");
+      $("#newSlider2 .noUi-handle").css("background","#0275d8");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Stutter";
-        $(".effectPanel3").html("<span class='effectName'>Stutter</span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div>");
+        $(".effectPanel3").html("<span class='effectName'>Stutter</span> <span><img class='effectImg' src='css/Stutter.png'/></span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start</span><span class='timelineEnd'>End</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
-          start:[duration/2],
+          start:[0.5],
           tooltips: [ true ],
           step:0.01,
           range:{
-            'min':0,
+            'min':0.05,
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#5bc0de");
+        $("#newSlider3 .noUi-handle").css("background","#0275d8");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1173,6 +1177,8 @@ function handleStop(event) {
   console.log('Recorder stopped: ', event);
 }
 
+
+var superBuffer;
 //SECTION 3.3: Stop MediaRecorder and load final edited video
 function finish(){
   document.getElementById("p5video").loop = false;
@@ -1180,7 +1186,7 @@ function finish(){
     mediaRecorder.stop();
     console.log('Recorded Blobs: ', recordedBlobs);
     videoFinal.controls = true;
-    var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
+    superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
     videoFinal.src = window.URL.createObjectURL(superBuffer);
     publishButton.textContent = 'Published';
     editStatus.innerHTML = ("Status: Published");
@@ -1191,6 +1197,7 @@ function finish(){
     $(".step3").fadeIn();
     $("#vidNameFinal").html("<p><b>" + vidName + "</b>");
     $("#authorNameFinal").html("<p><b>Created By: " + authorName + "</b>");
+    console.log(window.URL.createObjectURL(superBuffer));
   };
 }
 
@@ -1210,7 +1217,8 @@ function redo(){
   document.getElementById("saturate").disabled = false;
   document.getElementById("slow").disabled = false;
   document.getElementById("freeze").disabled = false;
-  document.getElementById("progress").disabled = false;
+  document.getElementById("stutter").disabled = false;
+  document.getElementById("submit").disabled = false;
   editStatus.innerHTML = ("Status: Ready to Edit"); 
   publishButton.innerHTML = ('Publish');
   $("#toggleVid").html('Pause');
@@ -1219,4 +1227,44 @@ function redo(){
   video.play();
   video.loop();
   startStream();
+}
+
+//SECTION 4.0: Uploading to server
+$("#submit").on("click",function(){
+uploadBlob();
+console.log("uploaded");
+document.getElementById("redo").disabled = true;
+document.getElementById("submit").disabled = true;
+});
+
+
+var viewLink = "";
+
+// javascript function that uploads a blob to upload.php
+function uploadBlob(){
+    // create a blob here for testing
+    //var blob = new Blob(["i am a poo poo blast"]);  
+    var reader = new FileReader();
+    // this function is triggered once a call to readAsDataURL returns
+    reader.onload = function(event){
+        var fd = new FormData();
+        fd.append('fname', 'test.webm');
+        fd.append('data', event.target.result);
+        $.ajax({
+            type: 'POST',
+            url: 'upload.php',
+            data: fd,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+            // print the output from the upload.php script
+            console.log(data);
+            viewLink = data;
+            document.getElementById("viewVideo").style.display = "block";
+            document.getElementById("viewLink").href = viewLink;
+        });
+    };      
+    // trigger the read from the reader...
+    reader.readAsDataURL(superBuffer);
+
 }
