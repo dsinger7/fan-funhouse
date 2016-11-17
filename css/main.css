@@ -17,10 +17,10 @@
   font-size:16px !important;
 }
 
- #toggleVid{
+ #toggleVid, #muteVid, #redo{
   background:#000000 !important; 
 }
- #toggleVid:hover{
+ #toggleVid:hover, #muteVid, #redo{
   background:#333333 !important; 
 }
 
@@ -53,12 +53,21 @@
 }
 
 #newSlider1,#newSlider2,#newSlider3{
-  margin-top:40px;
+  margin-top:20px;
   font-size:10px;
+}
+
+
+.effectName{
+  font-size:24px;
+  font-weight: bold;
+  margin-left:10px;
+  margin-top:10px;
 }
 
 .deleteEffect{
   float:right;
+  clear:right;
   font-size:24px;
   padding-right: 10px;
   transition:all 1s;
@@ -67,6 +76,22 @@
 .deleteEffect:hover{
   transform:scale(1.2);
   cursor:pointer;
+}
+
+.effectImg{
+  width:40px;
+  height:40px;
+}
+
+.timelineStart{
+font-size:16px;
+padding-left: 10px;
+}
+
+.timelineEnd{
+  float:right;
+  font-size:16px;
+  padding-right:10px;
 }
 
 /*STEP 2 VIDEO CONTROLS*/
@@ -139,6 +164,13 @@ progress[value]::-webkit-progress-value {
     width:73%;
 }
 
+.step1, .step2, .step3{
+  margin-top:50px;
+}
+
+#s1{
+  font-weight: 600;
+}
 
 .seconds{
     text-align: center;
