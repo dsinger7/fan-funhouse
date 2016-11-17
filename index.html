@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="author" content="//samdutton.com">
+<meta name="author">
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta id="theme-color" name="theme-color" content="#fff">
@@ -103,21 +103,26 @@ a#downloadLink {
 
     <div class="row">
       <div class="col-lg-12 col-md-12 main">
+       <div class="steps">
+       <p><span id="s1">1: Record Video </span>— <span id="s2">2: Apply Effects </span>— <span id="s3">3: Preview and Submit</span>
+       </div> 
 
       <div class="step1"> 
         <div class="col-md-6">
-        <p>Step 1: Record Webcam Video</p>
+        <!--<p>Step 1: Record Webcam Video</p>-->
         <div id="clockdiv">
 
-         <div>Set Duration: <!--<input type="range" id="vidLength" value="15" min="1" max="15">
+         <div id="setDuration">Set Duration: <span class="seconds" id="duration">15</span>s<!--<input type="range" id="vidLength" value="15" min="1" max="15">
        </div>-->
        <div id="durationSlider"></div></div>
-          Time Remaining: <span class="seconds" id="countdown">15</span>
+          <span class="seconds" id="countdown" style="display:none;">15</span>
         </div><br>
 
           <video id="recordVid" controls autoplay muted="muted"></video><br>
 
           <button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
+
+          
           <!--<button id="pauseRes" class="ui-button" onclick="onPauseResumeClicked()" disabled>Pause</button>-->
           <!--<button id="stop" class="ui-button" onclick="onBtnStopClicked()" disabled>Stop</button>-->
         </div><!--END COL-->
@@ -127,14 +132,23 @@ a#downloadLink {
 
           
     <div class="col-md-5">
-      <p>Step 2: Apply Effects
+      <!--<p>Step 2: Apply Effects-->
           <div id="editStatus">
           Status: Waiting for Recording</div> 
           <div id="editCol"></div>
 
-          <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()">Play</button>
-          <button id="publish" class="ui-button btn btn-primary">Publish</button>
 
+
+
+  <div id="remix-wrapper">        
+    <progress id="progress" value="0" min="0">
+      <!--<div id="remix-marker"></div>-->
+    </progress>
+  </div>
+
+    <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()" style="display:none;">Play</button>
+    <button id="muteVid" class="ui-button btn btn-primary" onclick="muteVid()">Mute</button>
+    <button id="publish" class="ui-button btn btn-primary">Publish</button>
 <br><br>
 <p><b>Video Name:</b> <input id="vidName" type="text" placeholder="Enter video name..."/>
 <p><b>Created By:</b> <input id="authorName" type="text" placeholder="Enter author name..."/>          
@@ -148,24 +162,14 @@ a#downloadLink {
     <button id="glitch" class="btn btn-danger glitch">Glitch</button>
     <button id="saturate" class="btn btn-info saturate">Saturate</button>
     <button id="slow" class="btn btn-warning slow">Slow</button>
-    <button id="freeze" class="btn btn-success freeze">Great Job!</button>
+    <button id="freeze" class="btn btn-success freeze" style="display:none;">Great Job!</button>
     <button id="stutter" class="btn btn-primary stutter">Stutter</button>
   </div> <br> 
    <div class="effectsPanel">
-    <div class="effectPanel1" id="effectPanel1"></div>
-    <div class="effectPanel2" id="effectPanel2"></div>
-    <div class="effectPanel3" id="effectPanel3"></div>
+    <div class="effectPanel1" id="effectPanel1"><span class='effectName'>Effect 1</span></div>
+    <div class="effectPanel2" id="effectPanel2"><span class='effectName'>Effect 2</span></div>
+    <div class="effectPanel3" id="effectPanel3"><span class='effectName'>Effect 3</span></div>
 
-   <!-- <div class="remixPanel" id="remixPanel">
-
-
-
-  <div id="remix-wrapper">
-    <br><p>Remix Bar:<br>          
-    <progress id="progress" value="0" min="0">
-      <div id="remix-marker"></div>
-    </progress>
-  </div></div> -->
 
    </div><!--END EFFECTS PANEL-->     
   
@@ -178,7 +182,7 @@ a#downloadLink {
 
 <div class="step3">
 <div class="col-md-6">
-<p>Step 3: View and Share<br>
+<!--<p>Step 3: Preview and Submit--><br>
 <div id="vidNameFinal"></div> 
 <div id="authorNameFinal"></div>
 <video id="recorded-final" autoplay loop></video>

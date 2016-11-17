@@ -29,8 +29,10 @@ var count = 0;
 var recording = false;
 
 //p5 video setup and effects (Step 2)
+var src;
 var video;
 var canvas;
+var muted = false;
 var playing = false;
 var playButton;
 var target;
@@ -55,6 +57,7 @@ var timeCode = 0;
 
 //Web Audio variables (Step 2)
 var aStream;
+var gainNode;
 var greatJobPlayed1 = false;
 var greatJobPlayed2 = false;
 var greatJobPlayed3 = false;
@@ -120,6 +123,8 @@ var canvasPublish;
 //Redo state (Step 3)
 var redoButton = document.querySelector('button#redo');
 redoButton.onclick = redo;
+
+var effect1, effect2, effect3;
 
 
 ///////////////////
@@ -225,6 +230,18 @@ function errorCallback(error){
   console.log('navigator.getUserMedia error: ', error);
 }
 
+
+function successCallback(stream) {
+  window.stream = stream; // stream available to console
+  if (window.URL) {
+    videoElement.src = window.URL.createObjectURL(stream);
+  } else {
+    videoElement.src = stream;
+  }
+}
+
+navigator.getUserMedia(constraints, successCallback, errorCallback);
+
 //SECTION 1.4: Start MediaRecorder
 function startRecording(stream) {
   if (typeof MediaRecorder.isTypeSupported == 'function')
@@ -246,10 +263,10 @@ function startRecording(stream) {
 
 //SECTION 1.4.1: Capture webcam stream and push MediaRecorder chunks to a blob. 
 mediaRecorder.start(10);
-
-var url = window.URL || window.webkitURL;
-videoElement.src = url ? url.createObjectURL(stream) : stream;
-videoElement.play();
+durationSlider.setAttribute('disabled', true);
+//var url = window.URL || window.webkitURL;
+//videoElement.src = url ? url.createObjectURL(stream) : stream;
+//videoElement.play();
 
 mediaRecorder.ondataavailable = function(e) {
   chunks.push(e.data);
@@ -279,12 +296,13 @@ function getTimeRemaining(endtime) {
 
 function initializeClock(id, endtime) {
   var clock = document.getElementById(id);
-  var secondsSpan = clock.querySelector('.seconds');
+  //var secondsSpan = clock.querySelector('.seconds');
+  var secondsSpan = document.getElementById('countdown');
 
   function updateClock() {
     var t = getTimeRemaining(endtime);
     if(editMode === false){
-      secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+      secondsSpan.innerHTML = (('0' + t.seconds).slice(-2) + 's');
     }
     else{
       secondsSpan.innerHTML = ('00');
@@ -300,6 +318,10 @@ function initializeClock(id, endtime) {
 //SECTION 1.4.3: Actions when MediaRecorder starts and stops
 mediaRecorder.onstart = function(){
   initializeClock('clockdiv', deadline);
+  document.getElementById('countdown').style.display = "block";
+  document.getElementById('setDuration').style.display = "none";
+
+
   var trackTimer = setInterval(function(){
     if(t === 0){
       clearInterval(trackTimer);
@@ -383,26 +405,46 @@ function toggleVid() {
   } else {
     if(timeReceived){
       video.loop();
+      publishButton.disabled = false;
     } 
     else{
       video.autoplay();
     }
-    $("#toggleVid").html('Pause');
-    publishButton.disabled = false;
+    $("#toggleVid").html('Pause');   
   }
   playing = !playing;
 }
+
+//SECTION 2.1.2: Mute/Unmute Button
+function muteVid(){
+  if(muted === false){
+    gainNode.gain.value = 0;
+    muted = true;
+    $("#muteVid").html('Unmute');
+  }
+  else{
+    gainNode.gain.value = 1;
+    muted = false;
+    $("#muteVid").html('Mute');
+  }
+}
+
 
 //SECTION 2.2: Set up p5 video, Seriously effects, and Web Audio
 function step2(){
     if(editMode === false){
         editMode = true; 
+    $("#s1").animate({'font-weight': "400"},300);
+    $("#s2").animate({'font-weight': "600"},300);
     $(".step1").fadeOut();    
     $(".step2").fadeIn();
+
+
     $("clockdiv").hide();
     editStatus.innerHTML = ("Status: Analyzing for Time...");
 
     document.getElementById("toggleVid").disabled = true;
+    document.getElementById("muteVid").disabled = true;
     document.getElementById("publish").disabled = true;
     document.getElementById("glitch").disabled = true;
     document.getElementById("saturate").disabled = true;
@@ -419,25 +461,26 @@ function step2(){
     greatJobAudio.id('greatJob');
 //SECTION 2.2.2: Set up Seriously effects
     var seriously = new Seriously();
-    var src = seriously.source('#p5video');
+    src = seriously.source('#p5video');
     target = seriously.target('#p5canvas');
 
     blur = seriously.effect('blur');
     blur.source = src;
     target.source = blur;
     blur.amount = 0;
-    addNoise = seriously.effect('noise');
-    addNoise.source = src;
+    //addNoise = seriously.effect('noise');
+    //addNoise.source = src;
     tv = seriously.effect('tvglitch');
     tv.source = src;
     repeat = seriously.effect('repeat');
     repeat.source = src;
     crop = seriously.effect('crop');
     crop.source = src;
-    ripple = seriously.effect('ripple');
-    ripple.source = src;
+    //ripple = seriously.effect('ripple');
+    //ripple.source = src;
     hueSaturation = seriously.effect('hue-saturation');
     hueSaturation.source = src;
+    //hueSaturation.source = tv;
 
     reformat = seriously.transform('reformat');
     reformat.source = src;
@@ -446,22 +489,26 @@ function step2(){
 //SECTION 2.2.3: Set up Web Audio and start MediaStream
     var audioCtx = new AudioContext();
     var dest = audioCtx.createMediaStreamDestination();
+    gainNode = audioCtx.createGain();
     aStream = dest.stream;
     var myVid = document.getElementById("p5video");
     var sourceNode = audioCtx.createMediaElementSource(myVid);
     sourceNode.connect(dest);
-    sourceNode.connect(audioCtx.destination);    
 
-    var gj = document.getElementById('greatJob'); 
-    var sourceNode2 = audioCtx.createMediaElementSource(gj);
-    sourceNode2.connect(dest);
-    sourceNode2.connect(audioCtx.destination);
+    sourceNode.connect(gainNode);
+    gainNode.connect(audioCtx.destination);    
+    //sourceNode.connect(audioCtx.destination);    
+
+    //var gj = document.getElementById('greatJob'); 
+    //var sourceNode2 = audioCtx.createMediaElementSource(gj);
+    //sourceNode2.connect(dest);
+    //sourceNode2.connect(audioCtx.destination);
     
     startStream();
   }
 }
 
-//SECTION 2.3: Get duration, turn on buttons, and configure Remix Bar 
+//SECTION 2.3: Get duration, turn on buttons, and configure progress bar
 function getDuration(){
   video.onended(function(){
     console.log(video.time()); 
@@ -471,6 +518,7 @@ function getDuration(){
     timeReceived = true;
     editStatus.innerHTML = ("Status: Ready to Edit");
     document.getElementById("toggleVid").disabled = false;
+    document.getElementById("muteVid").disabled = false;
     document.getElementById("publish").disabled = false;
     document.getElementById("glitch").disabled = false;
     document.getElementById("saturate").disabled = false;
@@ -478,40 +526,25 @@ function getDuration(){
     document.getElementById("freeze").disabled = false;
     document.getElementById("stutter").disabled = false;
 
-//SECTION 2.3.1: Configure Remix Bar
-
-/*
-$("#remix-marker").draggabilly({
-axis: 'x',
-containment: '#progress'
-});
-
-$('#remix-marker').on('dragMove',function(event,pointer){
-  markerPos = $("#remix-marker").position();
-  markerPosX = markerPos.left;
-  //console.log(markerPosX);
-  stutterStart = (markerPosX/320) * duration;
-});
-
-
+//SECTION 2.3.1: Configure progress bar
 var progress = document.getElementById("progress");
 progress.setAttribute('max', duration);
 document.getElementById("progress").disabled = false;    
 
+/*
 document.getElementById("p5video").addEventListener('timeupdate', function(){
   progress.value = document.getElementById("p5video").currentTime;
-});
-*/
+}); */
 
-//var colOffset = 113;
+var colOffset = 113;
 
-/* progress.addEventListener('click', function(e) {
+progress.addEventListener('click', function(e) {
   var mouseOffsetX = $(this).offset().left;
-  var pos = (e.pageX z - mouseOffsetX) / this.offsetWidth;
+  var pos = (e.pageX - mouseOffsetX) / this.offsetWidth;
   document.getElementById("p5video").currentTime = pos * duration;
-      var markerPos = String((pos*320)-3) + "px";//-3 centers the bar
-      $("#remix-marker").css("left", markerPos);
-    }); */
+}); 
+
+
 
 });
 }
@@ -520,6 +553,10 @@ document.getElementById("p5video").addEventListener('timeupdate', function(){
 
 function draw(){
   if(editMode === true){
+
+    if(timeReceived === true){
+    progress.value = document.getElementById("p5video").currentTime;
+    }
 
     timeCode = video.time();
 
@@ -541,11 +578,14 @@ function draw(){
    }
 
 
+
   //SECTION 2.4.1: Seriously "Glitch" effect
   if(panel1Effect === "Glitch"){
     if(timeCode >= panel1Start && timeCode <= panel1End){
       target.source = tv;
       tv.distortion = 0.2;
+      //hueSaturation.source = tv;
+      //reformat.source = hueSaturation;
     }
   } 
   if(panel2Effect === "Glitch"){
@@ -708,11 +748,17 @@ if(panel3Effect === "Stutter"){
     }
   } 
 } 
+
+
   //SECTION 2.4.6: No Seriously effects
   if(timeCode <= panel1Start || timeCode >= panel1End || timeCode >= eval(panel1StartEnd)){
     if(timeCode <= panel2Start || timeCode >= panel2End || timeCode >= eval(panel2StartEnd)){
       if(timeCode <= panel3Start || timeCode >= panel3End || timeCode >= eval(panel3StartEnd)){
         target.source = crop;
+        tv.source = src;
+        hueSaturation.source = src;
+        reformat.source = src;
+
         hueSaturation.saturation = 0;
         hueSaturation.hue = 0.4;
         video.speed(1);
@@ -1074,16 +1120,19 @@ $(document).on("click",".deleteEffect",function(){
   if($(this).parent().attr("id") === "effectPanel1"){
     panel1Filled = false;
     panel1Effect = "";
+    $(".effectPanel1").html("<span class='effectName'>Effect 1</span>");
   }
   else if($(this).parent().attr("id") === "effectPanel2"){
     panel2Filled = false;
     panel2Effect = "";
+    $(".effectPanel2").html("<span class='effectName'>Effect 2</span>");
   }
   else if($(this).parent().attr("id") === "effectPanel3"){
     panel3Filled = false;
     panel3Effect = "";
+    $(".effectPanel3").html("<span class='effectName'>Effect 3</span>");
   }
-  $(this).parent().empty();
+  $(this).parent().empty();  
 });
 //SECTION 2.6: Set video title/author
 $("#vidName").on("input",function(){
@@ -1109,18 +1158,20 @@ function startStream(){
 
 //SECTION 3.2: Initiate publishing
 function publish(){
-  if (publishButton.textContent === 'Publish') {
-    //video.noLoop();
-    video.time(0);   
+  if (publishButton.textContent === 'Publish') { 
+    video.time(0); 
+    document.getElementById("p5video").loop = false;  
     startRecordingPublish();
     publishButton.textContent = 'Publishing';
     editStatus.innerHTML = ("Status: Publishing...");
     document.getElementById("toggleVid").disabled = true;
+    document.getElementById("muteVid").disabled = true;
     document.getElementById("publish").disabled = true;
     document.getElementById("glitch").disabled = true;
     document.getElementById("saturate").disabled = true;
     document.getElementById("slow").disabled = true;
     document.getElementById("freeze").disabled = true;
+    document.getElementById("stutter").disabled = true;
     finish();
   } else {
     //stopRecordingPublish();
@@ -1181,22 +1232,26 @@ function handleStop(event) {
 var superBuffer;
 //SECTION 3.3: Stop MediaRecorder and load final edited video
 function finish(){
-  document.getElementById("p5video").loop = false;
+  //document.getElementById("p5video").loop = false;
   document.getElementById("p5video").onended = function(){
+    //gainNode.gain.value = 0;
+    //video.pause();
     mediaRecorder.stop();
     console.log('Recorded Blobs: ', recordedBlobs);
     videoFinal.controls = true;
     superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
     videoFinal.src = window.URL.createObjectURL(superBuffer);
-    publishButton.textContent = 'Published';
+    //publishButton.textContent = 'Published';
     editStatus.innerHTML = ("Status: Published");
     publishButton.disabled = true;
-    video.pause();
+    
     $("#toggleVid").html('Play');
+    $("#s2").animate({'font-weight': "400"},300);
+    $("#s3").animate({'font-weight': "600"},300);
     $(".step2").fadeOut();    
     $(".step3").fadeIn();
-    $("#vidNameFinal").html("<p><b>" + vidName + "</b>");
-    $("#authorNameFinal").html("<p><b>Created By: " + authorName + "</b>");
+    $("#vidNameFinal").html(vidName);
+    $("#authorNameFinal").html("Created By: " + authorName);
     console.log(window.URL.createObjectURL(superBuffer));
   };
 }
@@ -1209,9 +1264,12 @@ function finish(){
 
 //SECTION 3.4: Initiate redo state if user wants to redo their edits
 function redo(){
+  $("#s3").animate({'font-weight': "400"},300);
+  $("#s2").animate({'font-weight': "600"},300);
   $(".step3").fadeOut();    
   $(".step2").fadeIn();
   document.getElementById("toggleVid").disabled = false;
+  document.getElementById("muteVid").disabled = false;
   document.getElementById("publish").disabled = false;
   document.getElementById("glitch").disabled = false;
   document.getElementById("saturate").disabled = false;
@@ -1250,6 +1308,8 @@ function uploadBlob(){
         var fd = new FormData();
         fd.append('fname', 'test.webm');
         fd.append('data', event.target.result);
+        fd.append('title', vidName);
+        fd.append('author', authorName);
         $.ajax({
             type: 'POST',
             url: 'upload.php',
