@@ -112,7 +112,7 @@ a#downloadLink {
         <!--<p>Step 1: Record Webcam Video</p>-->
         <div id="clockdiv">
 
-         <div id="setDuration">Set Duration: <span class="seconds" id="duration">15</span>s<!--<input type="range" id="vidLength" value="15" min="1" max="15">
+         <div id="setDuration">Set Duration: <span class="seconds" id="duration">9</span>s<!--<input type="range" id="vidLength" value="15" min="1" max="15">
        </div>-->
        <div id="durationSlider"></div></div>
           <span class="seconds" id="countdown" style="display:none;">15</span>
@@ -140,11 +140,6 @@ a#downloadLink {
 
 
 
-  <div id="remix-wrapper">        
-    <progress id="progress" value="0" min="0">
-      <!--<div id="remix-marker"></div>-->
-    </progress>
-  </div>
 
     <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()" style="display:none;">Play</button>
     <button id="muteVid" class="ui-button btn btn-primary" onclick="muteVid()">Mute</button>
@@ -157,14 +152,21 @@ a#downloadLink {
         </div><!--END COL-->
 
    <div class="col-md-7"> 
-    <br><div class="effectsButtons">
+    <div class="effectsButtons">
   Effects:<br> 
     <button id="glitch" class="btn btn-danger glitch">Glitch</button>
     <button id="saturate" class="btn btn-info saturate">Saturate</button>
     <button id="slow" class="btn btn-warning slow">Slow</button>
     <button id="freeze" class="btn btn-success freeze" style="display:none;">Great Job!</button>
     <button id="stutter" class="btn btn-primary stutter">Stutter</button>
-  </div> <br> 
+  </div>  
+
+  <div id="remix-wrapper">        
+    <progress id="progress" value="0" min="0">
+      <!--<div id="remix-marker"></div>-->
+    </progress>
+  </div>
+
    <div class="effectsPanel">
     <div class="effectPanel1" id="effectPanel1"><span class='effectName'>Effect 1</span></div>
     <div class="effectPanel2" id="effectPanel2"><span class='effectName'>Effect 2</span></div>
