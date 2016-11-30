@@ -14,9 +14,9 @@
  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'>
 
 
-<script src="libraries/p5.js"></script>
-<script src="libraries/p5.dom.js"></script>
-<script src="libraries/p5.sound.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/addons/p5.dom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/addons/p5.sound.min.js"></script>
 <script src="libraries/seriously.js"></script>
 <script src="libraries/effects/seriously.blur.js"></script>
 <script src="libraries/effects/seriously.chroma.js"></script>
@@ -26,9 +26,7 @@
 <script src="libraries/effects/seriously.noise.js"></script>
 <script src="libraries/effects/seriously.tvglitch.js"></script>
 
-<script src="libraries/effects/seriously.accumulator.js"></script>
-<script src="libraries/effects/seriously.ascii.js"></script>
-<script src="libraries/effects/seriously.bleach-bypass.js"></script>
+
 <script src="libraries/effects/seriously.blend.js"></script>
 <script src="libraries/effects/seriously.brightness-contrast.js"></script>
 <script src="libraries/effects/seriously.channels.js"></script>
@@ -41,8 +39,6 @@
 <script src="libraries/effects/seriously.directionblur.js"></script>
 <script src="libraries/effects/seriously.displacement.js"></script>
 <script src="libraries/effects/seriously.dither.js"></script>
-<script src="libraries/effects/seriously.edge.js"></script>
-<script src="libraries/effects/seriously.emboss.js"></script>
 <script src="libraries/effects/seriously.exposure.js"></script>
 <script src="libraries/effects/seriously.expression.js"></script>
 <script src="libraries/effects/seriously.fader.js"></script>
@@ -66,25 +62,18 @@
 <script src="libraries/effects/seriously.polar.js"></script>
 <script src="libraries/effects/seriously.repeat.js"></script>
 <script src="libraries/effects/seriously.ripple.js"></script>
-<script src="libraries/effects/seriously.scanlines.js"></script>
 <script src="libraries/effects/seriously.select.js"></script>
 <script src="libraries/effects/seriously.sepia.js"></script>
-<script src="libraries/effects/seriously.simplex.js"></script>
-<script src="libraries/effects/seriously.sketch.js"></script>
 <script src="libraries/effects/seriously.split.js"></script>
-<script src="libraries/effects/seriously.temperature.js"></script>
 <script src="libraries/effects/seriously.throttle.js"></script>
-<script src="libraries/effects/seriously.tone.js"></script>
-<script src="libraries/effects/seriously.vibrance.js"></script>
-<script src="libraries/effects/seriously.vignette.js"></script>
-<script src="libraries/effects/seriously.whitebalance.js"></script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
 <link rel="stylesheet" href="css/main.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.css"/>
 
 
 <style>
@@ -112,7 +101,7 @@ a#downloadLink {
         <!--<p>Step 1: Record Webcam Video</p>-->
         <div id="clockdiv">
 
-         <div id="setDuration">Set Duration: <span class="seconds" id="duration">9</span>s<!--<input type="range" id="vidLength" value="15" min="1" max="15">
+         <div id="setDuration">Set Duration: <span class="seconds" id="duration">09</span>s<!--<input type="range" id="vidLength" value="15" min="1" max="15">
        </div>-->
        <div id="durationSlider"></div></div>
           <span class="seconds" id="countdown" style="display:none;">15</span>
@@ -122,9 +111,6 @@ a#downloadLink {
 
           <button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
 
-          
-          <!--<button id="pauseRes" class="ui-button" onclick="onPauseResumeClicked()" disabled>Pause</button>-->
-          <!--<button id="stop" class="ui-button" onclick="onBtnStopClicked()" disabled>Stop</button>-->
         </div><!--END COL-->
         </div><!--END STEP 1-->
 
@@ -153,7 +139,6 @@ a#downloadLink {
 
    <div class="col-md-7"> 
     <div class="effectsButtons">
-  Effects:<br> 
     <button id="glitch" class="btn btn-danger glitch">Glitch</button>
     <button id="saturate" class="btn btn-info saturate">Saturate</button>
     <button id="slow" class="btn btn-warning slow">Slow</button>
@@ -175,8 +160,8 @@ a#downloadLink {
 
    </div><!--END EFFECTS PANEL-->     
   
-
-
+<!--preview frame-->
+<div id="framePreview"></div>
 
 </div><!--END COL-->
 

@@ -45,6 +45,7 @@ var ripple;
 var hueSaturation;
 var reformat;
 var greatJobAudio;
+var framePreview;
 var editCol = document.getElementById('editCol');
 document.getElementById("toggleVid").disabled = true;
 document.getElementById("publish").disabled = true;
@@ -457,6 +458,13 @@ function step2(){
     video.id('p5video');
     video.hide();
 
+
+    //FRAME PREVIEW
+    framePreview = createVideo([videoURL]);
+    framePreview.size(200,150);
+    framePreview.parent('framePreview');
+    //framePreview.play();
+
     greatJobAudio = createAudio("css/GreatJob.mp3");
     greatJobAudio.id('greatJob');
 //SECTION 2.2.2: Set up Seriously effects
@@ -651,7 +659,7 @@ function draw(){
     } 
   } 
   //SECTION 2.4.4: Seriously "Great Job" effect
-  if(panel1Effect === "Great Job!"){
+ /* if(panel1Effect === "Great Job!"){
     if(timeCode >= panel1Start && timeCode < panel1End){
       video.speed(1);
       target.source = repeat;
@@ -692,7 +700,7 @@ function draw(){
           greatJobPlayed3 = true;
         }        
       } 
-    } 
+    } */
   //SECTION 2.4.5: Seriously "Stutter" effect 
   if(panel1Effect === "Stutter"){  
   if(stutter1On === false){
@@ -760,9 +768,9 @@ if(panel3Effect === "Stutter"){
         reformat.source = src;
 
         hueSaturation.saturation = 0;
+        reformat.mode = 'contain';
         hueSaturation.hue = 0.4;
         video.speed(1);
-        reformat.mode = 'contain';
         reformat.width = 0;
         reformat.height = 0;
         repeat.repeat = 0;
@@ -776,7 +784,101 @@ if(panel3Effect === "Stutter"){
       }
     }
   }
+
+
+  //FRAME PREVIEWING AND DURATION DISPLAY
+  if(panel1Filled){
+    newSlider1.noUiSlider.on('slide',function(values,handle){  
+      if(handle === 0){
+        if(panel1Effect === "Stutter"){
+          framePreview.time(panel1StartEnd);
+        }
+        else{
+          framePreview.time(panel1Start);
+        }
+      }
+      else if(handle === 1){
+        framePreview.time(panel1End);
+      }
+    });
+    newSlider1.noUiSlider.on('change',function(values,handle){
+      if(handle === 0){
+        if(panel1Effect === "Stutter"){
+          $('.start-1').html("Start: " + Math.round(100*panel1StartEnd)/100);
+          $('.end-1').html("End: " + Math.round(100*panel1StartEnd)/100);
+        }
+        else{
+          $('.start-1').html("Start: " + Math.round(100*panel1Start)/100);
+        }
+      }
+      else if(handle === 1){
+        $('.end-1').html("End: " + Math.round(100*panel1End)/100);
+      }
+    }); 
   }
+
+  if(panel2Filled){
+    newSlider2.noUiSlider.on('slide',function(values,handle){  
+      if(handle === 0){
+        if(panel2Effect === "Stutter"){
+          framePreview.time(panel2StartEnd);
+        }
+        else{
+          framePreview.time(panel2Start);
+        }
+      }
+      else if(handle === 1){
+        framePreview.time(panel2End);
+      }
+    });
+    newSlider2.noUiSlider.on('change',function(values,handle){
+      if(handle === 0){
+        if(panel2Effect === "Stutter"){
+          $('.start-2').html("Start: " + Math.round(100*panel2StartEnd)/100);
+          $('.end-2').html("End: " + Math.round(100*panel2StartEnd)/100);
+        }
+        else{
+          $('.start-2').html("Start: " + Math.round(100*panel2Start)/100);
+        }
+      }
+      else if(handle === 1){
+        $('.end-2').html("End: " + Math.round(100*panel2End)/100);
+      }
+    }); 
+  }
+
+  if(panel3Filled){
+    newSlider3.noUiSlider.on('slide',function(values,handle){  
+      if(handle === 0){
+        if(panel3Effect === "Stutter"){
+          framePreview.time(panel3StartEnd);
+        }
+        else{
+          framePreview.time(panel3Start);
+        }
+      }
+      else if(handle === 1){
+        framePreview.time(panel3End);
+      }
+    });
+    newSlider3.noUiSlider.on('change',function(values,handle){
+      if(handle === 0){
+        if(panel3Effect === "Stutter"){
+          $('.start-3').html("Start: " + Math.round(100*panel3StartEnd)/100);
+          $('.end-3').html("End: " + Math.round(100*panel3StartEnd)/100);
+        }
+        else{
+          $('.start-3').html("Start: " + Math.round(100*panel3Start)/100);
+        }
+      }
+      else if(handle === 1){
+        $('.end-3').html("End: " + Math.round(100*panel3End)/100);
+      }
+    }); 
+  }
+
+
+  }//If editmode true
 }//END DRAW
 
 //SECTION 2.5: Set up sliders
@@ -786,11 +888,11 @@ $(".glitch").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Glitch";
-    $(".effectPanel1").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+    $(".effectPanel1").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0,0.5],
-      tooltips: [ true, true ],
+      tooltips: [ false, false ],
       step:0.01,
       connect:true,
       orientation:'horizontal',
@@ -806,11 +908,11 @@ $(".glitch").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Glitch";
-      $(".effectPanel2").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+      $(".effectPanel2").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0,0.5],
-        tooltips: [ true, true ],
+        tooltips: [ false, false ],
         step:0.01,
         connect:true,
         orientation:'horizontal',
@@ -826,11 +928,11 @@ $(".glitch").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Glitch";
-        $(".effectPanel3").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+        $(".effectPanel3").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
           start:[0,0.5],
-          tooltips: [ true, true ],
+          tooltips: [ false, false ],
           step:0.01,
           connect:true,
           orientation:'horizontal',
@@ -854,11 +956,11 @@ $(".saturate").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Saturate";
-    $(".effectPanel1").html("<span class='effectName'>Saturate</span> </span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+    $(".effectPanel1").html("<span class='effectName'>Saturate</span> </span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0,0.5],
-      tooltips: [ true, true ],
+      tooltips: [ false, false ],
       step:0.01,
       connect:true,
       orientation:'horizontal',
@@ -874,11 +976,11 @@ $(".saturate").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Saturate";
-      $(".effectPanel2").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+      $(".effectPanel2").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0,0.5],
-        tooltips: [ true, true ],
+        tooltips: [ false, false ],
         step:0.01,
         connect:true,
         orientation:'horizontal',
@@ -894,12 +996,12 @@ $(".saturate").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Saturate";
-        $(".effectPanel3").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+        $(".effectPanel3").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
 
         noUiSlider.create(newSlider3, {
           start:[0,0.5],
-          tooltips: [ true, true ],
+          tooltips: [ false, false ],
           step:0.01,
           connect:true,
           orientation:'horizontal',
@@ -923,11 +1025,11 @@ $(".slow").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Slow";
-    $(".effectPanel1").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+    $(".effectPanel1").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0,0.5],
-      tooltips: [ true, true ],
+      tooltips: [ false, false ],
       step:0.01,
       connect:true,
       orientation:'horizontal',
@@ -943,11 +1045,11 @@ $(".slow").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Slow";
-      $(".effectPanel2").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+      $(".effectPanel2").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0,0.5],
-        tooltips: [ true, true ],
+        tooltips: [ false, false ],
         step:0.01,
         connect:true,
         orientation:'horizontal',
@@ -963,12 +1065,12 @@ $(".slow").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Slow";
-        $(".effectPanel3").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+        $(".effectPanel3").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
 
         noUiSlider.create(newSlider3, {
           start:[0,0.5],
-          tooltips: [ true, true ],
+          tooltips: [ false, false ],
           step:0.01,
           connect:true,
           orientation:'horizontal',
@@ -988,11 +1090,11 @@ $(".slow").on("click",function(){
 }//ELSE for Panel 1
 });
 //SECTION 2.5.4: Great Job effect sliders
-$(".freeze").on("click",function(){
+/* $(".freeze").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Great Job!";
-    $(".effectPanel1").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+    $(".effectPanel1").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0,2.55],
@@ -1012,7 +1114,7 @@ $(".freeze").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Great Job!";
-      $(".effectPanel2").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+      $(".effectPanel2").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0,2.55],
@@ -1032,7 +1134,7 @@ $(".freeze").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Great Job!";
-        $(".effectPanel3").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+        $(".effectPanel3").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
 
         noUiSlider.create(newSlider3, {
@@ -1055,17 +1157,17 @@ $(".freeze").on("click",function(){
 }//ELSE for Panel 3
 }//ELSE for Panel 2
 }//ELSE for Panel 1
-});
+}); */
 //SECTION 2.5.5: Stutter effect sliders
 $(".stutter").on("click",function(){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Stutter";
-    $(".effectPanel1").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+    $(".effectPanel1").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0.5],
-      tooltips: [true],
+      tooltips: [false],
       step:0.01,
       range:{
         'min':0.05,
@@ -1078,11 +1180,11 @@ $(".stutter").on("click",function(){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = "Stutter";
-      $(".effectPanel2").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+      $(".effectPanel2").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0.5],
-        tooltips: [ true ],
+        tooltips: [ false ],
         step:0.01,
         range:{
           'min':0.05,
@@ -1095,11 +1197,11 @@ $(".stutter").on("click",function(){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = "Stutter";
-        $(".effectPanel3").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart'>Start: 0.0</span><span class='timelineEnd'>End: " + Math.round(100*duration)/100 + "</span>");
+        $(".effectPanel3").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
           start:[0.5],
-          tooltips: [ true ],
+          tooltips: [ false ],
           step:0.01,
           range:{
             'min':0.05,
