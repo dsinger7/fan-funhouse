@@ -123,12 +123,8 @@ a#downloadLink {
           Status: Waiting for Recording</div> 
           <div id="editCol"></div>
 
-
-
-
-
-    <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()" style="display:none;">Play</button>
-    <button id="muteVid" class="ui-button btn btn-primary" onclick="muteVid()">Mute</button>
+    <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()"><img src="css/play.png" /></button>
+    <button id="muteVid" class="ui-button btn btn-primary" onclick="muteVid()"><img src="css/mute.png" /></button>
     <button id="publish" class="ui-button btn btn-primary">Publish</button>
 <br><br>
 <p><b>Video Name:</b> <input id="vidName" type="text" placeholder="Enter video name..."/>
@@ -139,11 +135,11 @@ a#downloadLink {
 
    <div class="col-md-7"> 
     <div class="effectsButtons">
-    <button id="glitch" class="btn btn-danger glitch">Glitch</button>
-    <button id="saturate" class="btn btn-info saturate">Saturate</button>
-    <button id="slow" class="btn btn-warning slow">Slow</button>
+    <button id="glitch" class="btn btn-danger glitch" draggable="true" onclick="glitchClick()" ondragend="glitchAdd(event)">Glitch</button>
+    <button id="saturate" class="btn btn-info saturate" draggable="true" onclick="saturateClick()" ondragend="saturateAdd(event)">Saturate</button>
+    <button id="slow" class="btn btn-warning slow" draggable="true" onclick="slowClick()" ondragend="slowAdd(event)">Slow</button>
     <button id="freeze" class="btn btn-success freeze" style="display:none;">Great Job!</button>
-    <button id="stutter" class="btn btn-primary stutter">Stutter</button>
+    <button id="stutter" class="btn btn-primary stutter" draggable="true" onclick="stutterClick()" ondragend="stutterAdd(event)">Stutter</button>
   </div>  
 
   <div id="remix-wrapper">        
@@ -152,7 +148,7 @@ a#downloadLink {
     </progress>
   </div>
 
-   <div class="effectsPanel">
+   <div class="effectsPanel" ondragover="allowDrop(event)">
     <div class="effectPanel1" id="effectPanel1"><span class='effectName'>Effect 1</span></div>
     <div class="effectPanel2" id="effectPanel2"><span class='effectName'>Effect 2</span></div>
     <div class="effectPanel3" id="effectPanel3"><span class='effectName'>Effect 3</span></div>
@@ -161,7 +157,7 @@ a#downloadLink {
    </div><!--END EFFECTS PANEL-->     
   
 <!--preview frame-->
-<div id="framePreview"></div>
+<div id="framePreview" style="display:none;"></div>
 
 </div><!--END COL-->
 
