@@ -139,6 +139,15 @@ progress[value]::-webkit-progress-value {
   background-color: #00e676;
 }
 
+
+#recordVid, #framePreview, canvas{
+    -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+
 #remix-marker{
   position:absolute;
   top:45px;
@@ -207,6 +216,12 @@ padding-left: 10px;
 }
  #toggleVid:hover, #muteVid, #redo{
   background:#333333 !important; 
+}
+
+#toggleVid img, #muteVid img{
+  -webkit-filter: invert(100%); /* Safari 6.0 - 9.0 */
+  filter: invert(100%);
+  width:35px;
 }
 
 .ui-btn{

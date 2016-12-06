@@ -401,17 +401,17 @@ function setup() {
 function toggleVid() {
   if (playing) {
     video.pause();
-    $("#toggleVid").html('Play');
-    publishButton.disabled = true;
+    $("#toggleVid").html('<img src="css/play.png" />');
+    //publishButton.disabled = true;
   } else {
     if(timeReceived){
       video.loop();
-      publishButton.disabled = false;
+      //publishButton.disabled = false;
     } 
     else{
       video.autoplay();
     }
-    $("#toggleVid").html('Pause');   
+    $("#toggleVid").html('<img src="css/pause.png" />');   
   }
   playing = !playing;
 }
@@ -421,12 +421,12 @@ function muteVid(){
   if(muted === false){
     gainNode.gain.value = 0;
     muted = true;
-    $("#muteVid").html('Unmute');
+    $("#muteVid").html('<img src="css/unmute.png" />');
   }
   else{
     gainNode.gain.value = 1;
     muted = false;
-    $("#muteVid").html('Mute');
+    $("#muteVid").html('<img src="css/mute.png" />');
   }
 }
 
@@ -457,12 +457,13 @@ function step2(){
     video.size(320,240);
     video.id('p5video');
     video.hide();
-
+    translate(320,0);
+    scale(-1,1);
 
     //FRAME PREVIEW
-    framePreview = createVideo([videoURL]);
-    framePreview.size(200,150);
-    framePreview.parent('framePreview');
+    //framePreview = createVideo([videoURL]);
+    //framePreview.size(200,150);
+    //framePreview.parent('framePreview');
     //framePreview.play();
 
     greatJobAudio = createAudio("css/GreatJob.mp3");
@@ -560,8 +561,8 @@ progress.addEventListener('click', function(e) {
 //SECTION 2.4: Apply Seriously effects using p5's draw() calls
 
 function draw(){
-  if(editMode === true){
 
+  if(editMode === true){
     if(timeReceived === true){
     progress.value = document.getElementById("p5video").currentTime;
     }
@@ -658,50 +659,8 @@ function draw(){
       reformat.height = 3000;      
     } 
   } 
-  //SECTION 2.4.4: Seriously "Great Job" effect
- /* if(panel1Effect === "Great Job!"){
-    if(timeCode >= panel1Start && timeCode < panel1End){
-      video.speed(1);
-      target.source = repeat;
-      repeat.repeat += 1;
-      greatJobPlayed1 = false;
-      if(greatJobPlayed1 === false){
-        document.getElementById("p5video").muted = true;
-        document.getElementById("greatJob").loop = false;
-          greatJobAudio.play(); //.13 seconds before end, issue related to Chrome bug
-          greatJobPlayed1 = true;
-        }      
-      } 
-    } 
-    if(panel2Effect === "Great Job!"){
-      if(timeCode >= panel2Start && timeCode <= panel2End){
-        video.speed(1);
-        target.source = repeat;
-        repeat.repeat += 1;
-        greatJobPlayed2 = false;
-        if(greatJobPlayed2 === false){
-          document.getElementById("p5video").muted = true;
-          document.getElementById("greatJob").loop = false;
-          greatJobAudio.play(); //.13 seconds before end, issue related to Chrome bug
-          greatJobPlayed2 = true; 
-        }       
-      } 
-    } 
-    if(panel3Effect === "Great Job!"){
-      if(timeCode >= panel3Start && timeCode <= panel3End){
-        video.speed(1);
-        target.source = repeat;
-        repeat.repeat += 1;
-        greatJobPlayed3 = false;
-        if(greatJobPlayed3 === false){
-          document.getElementById("p5video").muted = true;
-          document.getElementById("greatJob").loop = false;
-          greatJobAudio.play(); //.13 seconds before end, issue related to Chrome bug
-          greatJobPlayed3 = true;
-        }        
-      } 
-    } */
-  //SECTION 2.4.5: Seriously "Stutter" effect 
+
+  //SECTION 2.4.4: Seriously "Stutter" effect 
   if(panel1Effect === "Stutter"){  
   if(stutter1On === false){
     if(timeCode > 0 && timeCode < 0.05){
@@ -791,14 +750,14 @@ if(panel3Effect === "Stutter"){
     newSlider1.noUiSlider.on('slide',function(values,handle){  
       if(handle === 0){
         if(panel1Effect === "Stutter"){
-          framePreview.time(panel1StartEnd);
+          //framePreview.time(panel1StartEnd);
         }
         else{
-          framePreview.time(panel1Start);
+          //framePreview.time(panel1Start);
         }
       }
       else if(handle === 1){
-        framePreview.time(panel1End);
+        //framePreview.time(panel1End);
       }
     });
     newSlider1.noUiSlider.on('change',function(values,handle){
@@ -821,14 +780,14 @@ if(panel3Effect === "Stutter"){
     newSlider2.noUiSlider.on('slide',function(values,handle){  
       if(handle === 0){
         if(panel2Effect === "Stutter"){
-          framePreview.time(panel2StartEnd);
+          //framePreview.time(panel2StartEnd);
         }
         else{
-          framePreview.time(panel2Start);
+          //framePreview.time(panel2Start);
         }
       }
       else if(handle === 1){
-        framePreview.time(panel2End);
+        //framePreview.time(panel2End);
       }
     });
     newSlider2.noUiSlider.on('change',function(values,handle){
@@ -851,14 +810,14 @@ if(panel3Effect === "Stutter"){
     newSlider3.noUiSlider.on('slide',function(values,handle){  
       if(handle === 0){
         if(panel3Effect === "Stutter"){
-          framePreview.time(panel3StartEnd);
+          //framePreview.time(panel3StartEnd);
         }
         else{
-          framePreview.time(panel3Start);
+          //framePreview.time(panel3Start);
         }
       }
       else if(handle === 1){
-        framePreview.time(panel3End);
+        //framePreview.time(panel3End);
       }
     });
     newSlider3.noUiSlider.on('change',function(values,handle){
@@ -876,15 +835,25 @@ if(panel3Effect === "Stutter"){
       }
     }); 
   }
-
+  
 
   }//If editmode true
 }//END DRAW
 
 //SECTION 2.5: Set up sliders
+function allowDrop(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+}
 
+//ADD WITH CLICKING AND DRAGGING
 //SECTION 2.5.1: Glitch effect sliders
-$(".glitch").on("click",function(){
+function glitchAdd(event){
+  event.preventDefault();  
+  event.stopPropagation();
+  var dropStatus = event.dataTransfer.dropEffect;
+  if(dropStatus === "copy"){
+
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Glitch";
@@ -947,12 +916,86 @@ $(".glitch").on("click",function(){
       }
       else{
         alert("Please delete an existing effect to add a new one.");
-}//ELSE for Panel 3
-}//ELSE for Panel 2
-}//ELSE for Panel 1
-});
+  }//ELSE for Panel 3
+  }//ELSE for Panel 2
+  }//ELSE for Panel 1
+}
+}
+function glitchClick(){
+  if(panel1Filled === false){
+    panel1Filled = true;
+    panel1Effect = "Glitch";
+    $(".effectPanel1").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    newSlider1 = document.getElementById('newSlider1');
+    noUiSlider.create(newSlider1, {
+      start:[0,0.5],
+      tooltips: [ false, false ],
+      step:0.01,
+      connect:true,
+      orientation:'horizontal',
+      behaviour:'tap-drag',
+      range:{
+        'min':0,
+        'max':duration
+      }
+    });
+    $("#newSlider1 .noUi-connect").css("background","#d9534f");
+    panel1StartEnd = newSlider1.noUiSlider.get();
+  } else{
+    if(panel2Filled === false){
+      panel2Filled = true;
+      panel2Effect = "Glitch";
+      $(".effectPanel2").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      newSlider2 = document.getElementById('newSlider2');
+      noUiSlider.create(newSlider2, {
+        start:[0,0.5],
+        tooltips: [ false, false ],
+        step:0.01,
+        connect:true,
+        orientation:'horizontal',
+        behaviour:'tap-drag',
+        range:{
+          'min':0,
+          'max':duration
+        }
+      });
+      $("#newSlider2 .noUi-connect").css("background","#d9534f");
+      panel2StartEnd = newSlider2.noUiSlider.get();
+    } else{
+      if(panel3Filled === false){
+        panel3Filled = true;
+        panel3Effect = "Glitch";
+        $(".effectPanel3").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        newSlider3 = document.getElementById('newSlider3');
+        noUiSlider.create(newSlider3, {
+          start:[0,0.5],
+          tooltips: [ false, false ],
+          step:0.01,
+          connect:true,
+          orientation:'horizontal',
+          behaviour:'tap-drag',
+          range:{
+            'min':0,
+            'max':duration
+          }
+        });
+        $("#newSlider3 .noUi-connect").css("background","#d9534f");
+        panel3StartEnd = newSlider3.noUiSlider.get();
+      }
+      else{
+        alert("Please delete an existing effect to add a new one.");
+  }//ELSE for Panel 3
+  }//ELSE for Panel 2
+  }//ELSE for Panel 1
+}
+
 //SECTION 2.5.2: Saturate effect sliders
-$(".saturate").on("click",function(){
+function saturateAdd(event){
+  event.preventDefault();  
+  event.stopPropagation();
+  var dropStatus = event.dataTransfer.dropEffect;
+  if(dropStatus === "copy"){
+
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Saturate";
@@ -1019,9 +1062,84 @@ $(".saturate").on("click",function(){
 }//ELSE for Panel 3
 }//ELSE for Panel 2
 }//ELSE for Panel 1
-});
+}
+}
+function saturateClick(){
+  if(panel1Filled === false){
+    panel1Filled = true;
+    panel1Effect = "Saturate";
+    $(".effectPanel1").html("<span class='effectName'>Saturate</span> </span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    newSlider1 = document.getElementById('newSlider1');
+    noUiSlider.create(newSlider1, {
+      start:[0,0.5],
+      tooltips: [ false, false ],
+      step:0.01,
+      connect:true,
+      orientation:'horizontal',
+      behaviour:'tap-drag',
+      range:{
+        'min':0,
+        'max':duration
+      }
+    });
+    $("#newSlider1 .noUi-connect").css("background","#5bc0de");
+    panel1StartEnd = newSlider1.noUiSlider.get();
+  } else{
+    if(panel2Filled === false){
+      panel2Filled = true;
+      panel2Effect = "Saturate";
+      $(".effectPanel2").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      newSlider2 = document.getElementById('newSlider2');
+      noUiSlider.create(newSlider2, {
+        start:[0,0.5],
+        tooltips: [ false, false ],
+        step:0.01,
+        connect:true,
+        orientation:'horizontal',
+        behaviour:'tap-drag',
+        range:{
+          'min':0,
+          'max':duration
+        }
+      });
+      $("#newSlider2 .noUi-connect").css("background","#5bc0de");
+      panel2StartEnd = newSlider2.noUiSlider.get();
+    } else{
+      if(panel3Filled === false){
+        panel3Filled = true;
+        panel3Effect = "Saturate";
+        $(".effectPanel3").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        newSlider3 = document.getElementById('newSlider3');
+
+        noUiSlider.create(newSlider3, {
+          start:[0,0.5],
+          tooltips: [ false, false ],
+          step:0.01,
+          connect:true,
+          orientation:'horizontal',
+          behaviour:'tap-drag',
+          range:{
+            'min':0,
+            'max':duration
+          }
+        });
+        $("#newSlider3 .noUi-connect").css("background","#5bc0de");
+        panel3StartEnd = newSlider3.noUiSlider.get();
+      }
+      else{
+        alert("Please delete an existing effect to add a new one.");
+}//ELSE for Panel 3
+}//ELSE for Panel 2
+}//ELSE for Panel 1
+}
+
 //SECTION 2.5.3: Slow effect sliders
-$(".slow").on("click",function(){
+function slowAdd(event){
+  event.preventDefault();  
+  event.stopPropagation();
+  var dropStatus = event.dataTransfer.dropEffect;
+  if(dropStatus === "copy"){
+
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Slow";
@@ -1088,68 +1206,68 @@ $(".slow").on("click",function(){
 }//ELSE for Panel 3
 }//ELSE for Panel 2
 }//ELSE for Panel 1
-});
-//SECTION 2.5.4: Great Job effect sliders
-/* $(".freeze").on("click",function(){
+}
+}
+function slowClick(){
   if(panel1Filled === false){
     panel1Filled = true;
-    panel1Effect = "Great Job!";
-    $(".effectPanel1").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    panel1Effect = "Slow";
+    $(".effectPanel1").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
-      start:[0,2.55],
-      tooltips: [ true, true ],
+      start:[0,0.5],
+      tooltips: [ false, false ],
       step:0.01,
       connect:true,
       orientation:'horizontal',
-      behaviour:'drag-fixed',
+      behaviour:'tap-drag',
       range:{
         'min':0,
-        'max':duration-0.13
+        'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#4caf50");
+    $("#newSlider1 .noUi-connect").css("background","#ff9900");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
       panel2Filled = true;
-      panel2Effect = "Great Job!";
-      $(".effectPanel2").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      panel2Effect = "Slow";
+      $(".effectPanel2").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
-        start:[0,2.55],
-        tooltips: [ true, true ],
+        start:[0,0.5],
+        tooltips: [ false, false ],
         step:0.01,
         connect:true,
         orientation:'horizontal',
-        behaviour:'drag-fixed',
+        behaviour:'tap-drag',
         range:{
           'min':0,
-          'max':duration-0.13
+          'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#4caf50");
+      $("#newSlider2 .noUi-connect").css("background","#ff9900");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
         panel3Filled = true;
-        panel3Effect = "Great Job!";
-        $(".effectPanel3").html("<span class='effectName'>Great Job!</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        panel3Effect = "Slow";
+        $(".effectPanel3").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
 
         noUiSlider.create(newSlider3, {
-          start:[0,2.55],
-          tooltips: [ true, true ],
+          start:[0,0.5],
+          tooltips: [ false, false ],
           step:0.01,
           connect:true,
           orientation:'horizontal',
-          behaviour:'drag-fixed',
+          behaviour:'tap-drag',
           range:{
             'min':0,
-            'max':duration-0.13
+            'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#4caf50");
+        $("#newSlider3 .noUi-connect").css("background","#ff9900");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1157,9 +1275,15 @@ $(".slow").on("click",function(){
 }//ELSE for Panel 3
 }//ELSE for Panel 2
 }//ELSE for Panel 1
-}); */
-//SECTION 2.5.5: Stutter effect sliders
-$(".stutter").on("click",function(){
+}
+
+//SECTION 2.5.4: Stutter effect sliders
+function stutterAdd(event){
+  event.preventDefault();  
+  event.stopPropagation();
+  var dropStatus = event.dataTransfer.dropEffect;
+  if(dropStatus === "copy"){
+
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = "Stutter";
@@ -1216,7 +1340,67 @@ $(".stutter").on("click",function(){
 }//ELSE for Panel 3
 }//ELSE for Panel 2
 }//ELSE for Panel 1
-});
+}
+}
+function stutterClick(event){
+  if(panel1Filled === false){
+    panel1Filled = true;
+    panel1Effect = "Stutter";
+    $(".effectPanel1").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider1'></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    newSlider1 = document.getElementById('newSlider1');
+    noUiSlider.create(newSlider1, {
+      start:[0.5],
+      tooltips: [false],
+      step:0.01,
+      range:{
+        'min':0.05,
+        'max':duration
+      }
+    });
+    $("#newSlider1 .noUi-handle").css("background","#0275d8");
+    panel1StartEnd = newSlider1.noUiSlider.get();
+  } else{
+    if(panel2Filled === false){
+      panel2Filled = true;
+      panel2Effect = "Stutter";
+      $(".effectPanel2").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider2'></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      newSlider2 = document.getElementById('newSlider2');
+      noUiSlider.create(newSlider2, {
+        start:[0.5],
+        tooltips: [ false ],
+        step:0.01,
+        range:{
+          'min':0.05,
+          'max':duration
+        }
+      });
+      $("#newSlider2 .noUi-handle").css("background","#0275d8");
+      panel2StartEnd = newSlider2.noUiSlider.get();
+    } else{
+      if(panel3Filled === false){
+        panel3Filled = true;
+        panel3Effect = "Stutter";
+        $(".effectPanel3").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div id='newSlider3'></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        newSlider3 = document.getElementById('newSlider3');
+        noUiSlider.create(newSlider3, {
+          start:[0.5],
+          tooltips: [ false ],
+          step:0.01,
+          range:{
+            'min':0.05,
+            'max':duration
+          }
+        });
+        $("#newSlider3 .noUi-handle").css("background","#0275d8");
+        panel3StartEnd = newSlider3.noUiSlider.get();
+      }
+      else{
+        alert("Please delete an existing effect to add a new one.");
+}//ELSE for Panel 3
+}//ELSE for Panel 2
+}//ELSE for Panel 1
+}
+
 //SECTION 2.5.6: Delete any effect
 $(document).on("click",".deleteEffect",function(){
   if($(this).parent().attr("id") === "effectPanel1"){
@@ -1261,10 +1445,15 @@ function startStream(){
 //SECTION 3.2: Initiate publishing
 function publish(){
   if (publishButton.textContent === 'Publish') { 
-    video.time(0); 
+    video.time(0);
+    if(!playing){
+      video.play();
+      $("#toggleVid").html('<img src="css/pause.png" />');
+      playing = true;  
+    }  
     document.getElementById("p5video").loop = false;  
     startRecordingPublish();
-    publishButton.textContent = 'Publishing';
+    //publishButton.textContent = 'Publishing';
     editStatus.innerHTML = ("Status: Publishing...");
     document.getElementById("toggleVid").disabled = true;
     document.getElementById("muteVid").disabled = true;
@@ -1307,7 +1496,7 @@ function startRecordingPublish() {
     }
   }
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-  publishButton.textContent = 'Publishing';
+  //publishButton.textContent = 'Publishing';
   mediaRecorder.onstop = handleStop;
   mediaRecorder.ondataavailable = handleDataAvailable;
   mediaRecorder.start(100); // collect 100ms of data
@@ -1381,7 +1570,7 @@ function redo(){
   document.getElementById("submit").disabled = false;
   editStatus.innerHTML = ("Status: Ready to Edit"); 
   publishButton.innerHTML = ('Publish');
-  $("#toggleVid").html('Pause');
+  $("#toggleVid").html('<img src="css/pause.png" />');
   videoFinal.pause();
   videoFinal.src = "";
   video.play();
