@@ -9,7 +9,7 @@
 
 <base target="_blank">
 
-<title>Master's Project App Test 1</title>
+<title>Fan Funhouse - Freeform</title>
 
  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'>
 
@@ -29,16 +29,7 @@
 
 <script src="libraries/effects/seriously.blend.js"></script>
 <script src="libraries/effects/seriously.brightness-contrast.js"></script>
-<script src="libraries/effects/seriously.channels.js"></script>
-<script src="libraries/effects/seriously.color-select.js"></script>
-<script src="libraries/effects/seriously.color.js"></script>
-<script src="libraries/effects/seriously.colorcomplements.js"></script>
-<script src="libraries/effects/seriously.colorcube.js"></script>
 <script src="libraries/effects/seriously.crop.js"></script>
-<script src="libraries/effects/seriously.daltonize.js"></script>
-<script src="libraries/effects/seriously.directionblur.js"></script>
-<script src="libraries/effects/seriously.displacement.js"></script>
-<script src="libraries/effects/seriously.dither.js"></script>
 <script src="libraries/effects/seriously.exposure.js"></script>
 <script src="libraries/effects/seriously.expression.js"></script>
 <script src="libraries/effects/seriously.fader.js"></script>
@@ -56,16 +47,8 @@
 <script src="libraries/effects/seriously.lumakey.js"></script>
 <script src="libraries/effects/seriously.lut.js"></script>
 <script src="libraries/effects/seriously.mirror.js"></script>
-<script src="libraries/effects/seriously.opticalflow.js"></script>
-<script src="libraries/effects/seriously.panorama.js"></script>
-<script src="libraries/effects/seriously.pixelate.js"></script>
-<script src="libraries/effects/seriously.polar.js"></script>
 <script src="libraries/effects/seriously.repeat.js"></script>
-<script src="libraries/effects/seriously.ripple.js"></script>
-<script src="libraries/effects/seriously.select.js"></script>
-<script src="libraries/effects/seriously.sepia.js"></script>
-<script src="libraries/effects/seriously.split.js"></script>
-<script src="libraries/effects/seriously.throttle.js"></script>
+
 
 
 
@@ -75,108 +58,123 @@
 <link rel="stylesheet" href="css/main.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.css"/>
 
-
-<style>
-a#downloadLink {
-  display: block;
-  margin: 0 0 1em 0;
-  min-height: 1.2em;
-}
-</style>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600" rel="stylesheet">
 
 </head>
+
+
+
+
 
 <body>
 
 <div class="container">
 
-    <div class="row">
-      <div class="col-lg-12 col-md-12 main">
-       <div class="steps">
-       <p><span id="s1">1: Record Video </span>— <span id="s2">2: Apply Effects </span>— <span id="s3">3: Preview and Submit</span>
-       </div> 
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main">
 
-      <div class="step1"> 
-        <div class="col-md-6">
-        <!--<p>Step 1: Record Webcam Video</p>-->
-        <div id="clockdiv">
 
-         <div id="setDuration">Set Duration: <span class="seconds" id="duration">09</span>s<!--<input type="range" id="vidLength" value="15" min="1" max="15">
-       </div>-->
-       <div id="durationSlider"></div></div>
-          <span class="seconds" id="countdown" style="display:none;">15</span>
-        </div><br>
+<div class="miniNav">
+<a href="create.html" target="_self"><img class="logo" src="css/logo.png"/></a>
+<img class="avatar" src="css/avatar.png"/>
+</div>
 
-          <video id="recordVid" controls autoplay muted="muted"></video><br>
 
-          <button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
+<h1 class="freeform">Freeform</h1>
+ 
+<div class="steps">
+<p><span id="s1">1) Record Video </span>&#8226; <span id="s2">2) Edit and Publish </span>
+</div> 
 
-        </div><!--END COL-->
-        </div><!--END STEP 1-->
+
+<div class="step1"> 
+
+<div class="card card-s1">
+<div id="clockdiv">
+
+<div id="setDuration">Set Duration: <span class="seconds" id="duration">09</span>s
+<div id="durationSlider"></div></div>
+<div class="seconds" id="countdown" style="display:none;">15</div>
+</div>
+
+<video id="recordVid" controls autoplay muted="muted"></video><br>
+
+<button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
+</div>
+
+</div><!--END STEP 1-->
 
 <div class="step2">
 
           
-    <div class="col-md-5">
-      <!--<p>Step 2: Apply Effects-->
-          <div id="editStatus">
-          Status: Waiting for Recording</div> 
-          <div id="editCol"></div>
+<div class="col-lg-6 col-md-7 col-sm-12 col-xs-12">
 
-    <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()"><img src="css/play.png" /></button>
-    <button id="muteVid" class="ui-button btn btn-primary" onclick="muteVid()"><img src="css/mute.png" /></button>
-    <button id="publish" class="ui-button btn btn-primary">Publish</button>
-<br><br>
+<div class="card card-s2A">
+<div id="editStatus">
+Status: Waiting for Recording</div> 
+<div id="editCol"></div>
+<div id="toggles">
+<button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()"><img src="css/pause.png" /></button>
+<button id="muteVid" class="ui-button btn btn-primary" onclick="muteVid()"><img src="css/mute.png" /></button>
+</div>
+</div>
+
+<div class="card card-s2B">
+<div class="effectsButtons">
+<button id="glitch" class="btn btn-danger glitch" draggable="true" onclick="glitchClick()" ondragend="glitchAdd(event)">Glitch</button>
+<button id="saturate" class="btn btn-info saturate" draggable="true" onclick="saturateClick()" ondragend="saturateAdd(event)">Saturate</button>
+<button id="slow" class="btn btn-warning slow" draggable="true" onclick="slowClick()" ondragend="slowAdd(event)">Slow</button>
+<button id="freeze" class="btn btn-success freeze" style="display:none;">Great Job!</button>
+<button id="stutter" class="btn btn-primary stutter" draggable="true" onclick="stutterClick()" ondragend="stutterAdd(event)">Stutter</button>
+</div>
+
+<div class="effectsPanel" ondragover="allowDrop(event)">
+<div class="effectPanel1" id="effectPanel1"><span class='effectName'>Effect 1</span></div>
+<div class="effectPanel2" id="effectPanel2"><span class='effectName'>Effect 2</span></div>
+<div class="effectPanel3" id="effectPanel3"><span class='effectName'>Effect 3</span></div>
+</div><!--END EFFECTS PANEL-->   
+</div>
+        
+
+<!-- <div id="editPlay"></div>-->  
+</div><!--END COL-->
+
+<div class="col-lg-6 col-md-5 col-sm-12 col-xs-12"> 
+
+<div class="card card-s2C">
+<div id="publish-box">
 <p><b>Video Name:</b> <input id="vidName" type="text" placeholder="Enter video name..."/>
-<p><b>Created By:</b> <input id="authorName" type="text" placeholder="Enter author name..."/>          
+<p><b>Author Name:</b> <input id="authorName" type="text" placeholder="Enter author name..."/> 
+<br><br>
+<button id="publish" class="ui-button btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Publish your video to the Fan Funhouse website!">Publish</button>
 
-         <!-- <div id="editPlay"></div>-->  
-        </div><!--END COL-->
+<div id="viewVideo1" style="display:none;">
+<p><a id="viewLink1">Submitted! View your video here.</a>
+</div>
 
-   <div class="col-md-7"> 
-    <div class="effectsButtons">
-    <button id="glitch" class="btn btn-danger glitch" draggable="true" onclick="glitchClick()" ondragend="glitchAdd(event)">Glitch</button>
-    <button id="saturate" class="btn btn-info saturate" draggable="true" onclick="saturateClick()" ondragend="saturateAdd(event)">Saturate</button>
-    <button id="slow" class="btn btn-warning slow" draggable="true" onclick="slowClick()" ondragend="slowAdd(event)">Slow</button>
-    <button id="freeze" class="btn btn-success freeze" style="display:none;">Great Job!</button>
-    <button id="stutter" class="btn btn-primary stutter" draggable="true" onclick="stutterClick()" ondragend="stutterAdd(event)">Stutter</button>
-  </div>  
-
-  <div id="remix-wrapper">        
-    <progress id="progress" value="0" min="0">
-      <!--<div id="remix-marker"></div>-->
-    </progress>
-  </div>
-
-   <div class="effectsPanel" ondragover="allowDrop(event)">
-    <div class="effectPanel1" id="effectPanel1"><span class='effectName'>Effect 1</span></div>
-    <div class="effectPanel2" id="effectPanel2"><span class='effectName'>Effect 2</span></div>
-    <div class="effectPanel3" id="effectPanel3"><span class='effectName'>Effect 3</span></div>
-
-
-   </div><!--END EFFECTS PANEL-->     
-  
-<!--preview frame-->
-<div id="framePreview" style="display:none;"></div>
+</div>
+</div>
 
 </div><!--END COL-->
 
 </div><!--END STEP 2-->
 
+
+
+
 <div class="step3">
 <div class="col-md-6">
-<!--<p>Step 3: Preview and Submit--><br>
+<br>
 <div id="vidNameFinal"></div> 
 <div id="authorNameFinal"></div>
 <video id="recorded-final" autoplay loop></video>
-<!-- <img src="https://www.digitalgov.gov/files/2015/04/400-x-72-fb-twitter-email-plus-sign.jpg"/ style="width:60%;"> -->
 <br><br><button id="redo" class="ui-button btn btn-primary">Edit</button>
 <button id="submit" class="ui-button btn btn-success">Submit</button>
 
 <br><br>
 <div id="viewVideo" style="display:none;">
-  <p><a id="viewLink">Submitted! View your video here.</a>
-  </div>
+<p><a id="viewLink">Submitted! View your video here.</a>
+</div>
 
 </div><!--END COL-->
 </div><!--END STEP 3-->
@@ -185,25 +183,25 @@ a#downloadLink {
 
 
 
-        </div><!--END COL-->
+</div><!--END MAIN COL-->
 
 
-        </div><!--END ROW-->
+</div><!--END MAIN ROW-->
 
 
 
-      <a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a> 
+<a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a> 
 
-      </div><!--END CONTAINER-->
+</div><!--END CONTAINER-->
 
 
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 
-<script>"https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'></script>
-<!--<script src="js/jquery.spinner.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.1/velocity.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js"></script>
-<script src="https://unpkg.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
+<!--<script src="https://unpkg.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>-->
 <script src="js/main.js"></script>
 
 
