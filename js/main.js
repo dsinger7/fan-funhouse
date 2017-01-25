@@ -8,7 +8,7 @@
 //GLOBAL VARIABLES
 
 //Slider (Step 1)
-var timeInMinutes = 0.25;
+var timeInMinutes = 0.15;
 var durationSlider = document.getElementById('durationSlider');
 
 //Video (Step 1)
@@ -21,6 +21,7 @@ var downloadLink = document.querySelector('a#downloadLink');
 videoElement.controls = false;
 
 //MediaRecorder (Step 1)
+var preCountdown = true;
 var mediaRecorder;
 var chunks = [];
 var count = 0;
@@ -107,6 +108,8 @@ var panelStartEndArray = [panel1StartEnd,panel2StartEnd,panel3StartEnd];
 //Video title and author (Step 2)
 var vidName = "My Video";
 var authorName = "My Name";
+var tags = "Tag";
+var tagList = "Tag";
 
 //MediaRecorder variables (Step 3)
 var mediaSource = new MediaSource();
@@ -296,7 +299,6 @@ function getTimeRemaining(endtime) {
 
 function initializeClock(id, endtime) {
   var clock = document.getElementById(id);
-  //var secondsSpan = clock.querySelector('.seconds');
   var secondsSpan = document.getElementById('countdown');
 
   function updateClock() {
@@ -318,6 +320,7 @@ function initializeClock(id, endtime) {
 //SECTION 1.4.3: Actions when MediaRecorder starts and stops
 mediaRecorder.onstart = function(){
   initializeClock('clockdiv', deadline);
+  document.getElementById('preCount').style.display = "none";
   document.getElementById('countdown').style.display = "block";
   document.getElementById('countdown').style.fontSize = "26px";
   document.getElementById('setDuration').style.display = "none";
@@ -364,14 +367,20 @@ mediaRecorder.onstop = function(){
 }
 
 //SECTION 1.5: Record button actions
-function onBtnRecordClicked (){
+function onBtnRecordClicked (){  
   if(recording === false){
-    if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
-     alert('MediaRecorder not supported on your browser, use Firefox 30 or Chrome 49 instead.');
-   } else {
-     navigator.getUserMedia(constraints, startRecording, errorCallback);
-     document.getElementById("rec").innerHTML = ("Stop");
-     recording = true;
+    if(preCountdown){
+      recordCountdown();
+      preCountdown = false;
+    }
+    else{
+      if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
+       alert('MediaRecorder not supported on your browser, use Firefox 30 or Chrome 49 instead.');
+     } else {
+       navigator.getUserMedia(constraints, startRecording, errorCallback);
+       document.getElementById("rec").innerHTML = ("Stop");
+       recording = true;
+     }
    }
  }
  else{
@@ -384,9 +393,43 @@ function onBtnRecordClicked (){
   document.getElementById("publish").disabled = false; 
 }
 }
+
+
 function onBtnStopClicked(){
   mediaRecorder.stop();
   videoElement.controls = true;
+}
+
+
+function recordCountdown(){
+  document.getElementById("rec").disabled = true; 
+  document.getElementById('setDuration').style.display = "none";
+  document.getElementById('preCount').style.display = "block";
+  setTimeout(threeRed,1000);
+  setTimeout(twoRed,2000);
+  setTimeout(oneRed,3000);
+  setTimeout(start,4000);
+}
+
+function threeRed(){
+  document.getElementById('three').style.color = "red";
+  document.getElementById('countdownSound1').volume = 0.3;
+  document.getElementById('countdownSound1').play();
+}
+
+function twoRed(){
+  document.getElementById('three').style.color = "white";
+  document.getElementById('two').style.color = "red";
+}
+
+function oneRed(){
+  document.getElementById('two').style.color = "white";
+  document.getElementById('one').style.color = "red";   
+}
+
+function start(){
+ document.getElementById("rec").disabled = false; 
+ onBtnRecordClicked();
 }
 
 ///////////////////
@@ -444,15 +487,15 @@ function step2(){
     $("#s2").animate({'font-weight': "600"},300);
     
     //$(".card-s1").velocity({ top: "400px" }, { duration: 500 });
-    $(".step1").fadeOut(500);  
+    $(".step1").fadeOut();  
  
     $(".step2").delay(300).fadeIn();
 
-    $(".card-s2A").velocity({ left: "-500px" }, { duration: 300 });
+    //$(".card-s2A").velocity({ left: "-500px" }, { duration: 300 });
     $(".card-s2B").velocity({ left: "-500px" }, { duration: 300 }); 
     $(".card-s2C").velocity({ left: "500px" }, { duration: 300 });  
     
-    $(".card-s2A").velocity({ left: "0px" }, { duration: 300 },"ease-in-out");
+    //$(".card-s2A").velocity({ left: "0px" }, { duration: 300 },"ease-in-out");
     $(".card-s2B").velocity({ left: "0px" }, { duration: 300 },"ease-in-out");
     $(".card-s2C").velocity({ left: "0px" }, { duration: 300 },"ease-in-out");
 
@@ -468,7 +511,7 @@ function step2(){
     $('[data-toggle="tooltip"]').tooltip();
 
     $("clockdiv").hide();
-    editStatus.innerHTML = ("Status: Analyzing for Time...");
+    editStatus.innerHTML = ("Status: Analyzing for Time...<div class='spinner1'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>");
 
     document.getElementById("toggleVid").disabled = true;
     document.getElementById("muteVid").disabled = true;
@@ -885,7 +928,7 @@ function glitchAdd(event){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#d9534f");
+    $("#newSlider1 .noUi-connect").css("background","#c0392b");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -905,7 +948,7 @@ function glitchAdd(event){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#d9534f");
+      $("#newSlider2 .noUi-connect").css("background","#c0392b");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -925,7 +968,7 @@ function glitchAdd(event){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#d9534f");
+        $("#newSlider3 .noUi-connect").css("background","#c0392b");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -953,7 +996,7 @@ function glitchClick(){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#d9534f");
+    $("#newSlider1 .noUi-connect").css("background","#c0392b");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -973,7 +1016,7 @@ function glitchClick(){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#d9534f");
+      $("#newSlider2 .noUi-connect").css("background","#c0392b");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -993,7 +1036,7 @@ function glitchClick(){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#d9534f");
+        $("#newSlider3 .noUi-connect").css("background","#c0392b");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1027,7 +1070,7 @@ function saturateAdd(event){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#5bc0de");
+    $("#newSlider1 .noUi-connect").css("background","#8e44ad");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -1047,7 +1090,7 @@ function saturateAdd(event){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#5bc0de");
+      $("#newSlider2 .noUi-connect").css("background","#8e44ad");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -1068,7 +1111,7 @@ function saturateAdd(event){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#5bc0de");
+        $("#newSlider3 .noUi-connect").css("background","#8e44ad");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1096,7 +1139,7 @@ function saturateClick(){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#5bc0de");
+    $("#newSlider1 .noUi-connect").css("background","#8e44ad");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -1116,7 +1159,7 @@ function saturateClick(){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#5bc0de");
+      $("#newSlider2 .noUi-connect").css("background","#8e44ad");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -1137,7 +1180,7 @@ function saturateClick(){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#5bc0de");
+        $("#newSlider3 .noUi-connect").css("background","#8e44ad");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1171,7 +1214,7 @@ function slowAdd(event){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#ff9900");
+    $("#newSlider1 .noUi-connect").css("background","#e67e22");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -1191,7 +1234,7 @@ function slowAdd(event){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#ff9900");
+      $("#newSlider2 .noUi-connect").css("background","#e67e22");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -1212,7 +1255,7 @@ function slowAdd(event){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#ff9900");
+        $("#newSlider3 .noUi-connect").css("background","#e67e22");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1240,7 +1283,7 @@ function slowClick(){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#ff9900");
+    $("#newSlider1 .noUi-connect").css("background","#e67e22");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -1260,7 +1303,7 @@ function slowClick(){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#ff9900");
+      $("#newSlider2 .noUi-connect").css("background","#e67e22");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -1281,7 +1324,7 @@ function slowClick(){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#ff9900");
+        $("#newSlider3 .noUi-connect").css("background","#e67e22");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1315,7 +1358,7 @@ function stutterAdd(event){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#0275d8");
+    $("#newSlider1 .noUi-connect").css("background","#27ae60");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -1335,7 +1378,7 @@ function stutterAdd(event){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#0275d8");
+      $("#newSlider2 .noUi-connect").css("background","#27ae60");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -1355,7 +1398,7 @@ function stutterAdd(event){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#0275d8");
+        $("#newSlider3 .noUi-connect").css("background","#27ae60");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1383,7 +1426,7 @@ function stutterClick(event){
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#0275d8");
+    $("#newSlider1 .noUi-connect").css("background","#27ae60");
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
@@ -1403,7 +1446,7 @@ function stutterClick(event){
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#0275d8");
+      $("#newSlider2 .noUi-connect").css("background","#27ae60");
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
@@ -1423,7 +1466,7 @@ function stutterClick(event){
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#0275d8");
+        $("#newSlider3 .noUi-connect").css("background","#27ae60");
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1452,13 +1495,26 @@ $(document).on("click",".deleteEffect",function(){
   }
   $(this).parent().empty();  
 });
-//SECTION 2.6: Set video title/author
+//SECTION 2.6: Set video title/author/tags
 $("#vidName").on("input",function(){
 vidName = document.getElementById('vidName').value;
 });
 $("#authorName").on("input",function(){
 authorName = document.getElementById('authorName').value;
 });
+
+
+$("#tags").on("input",function(){
+tags = document.getElementById('tags').value;
+tagList = tags.split(",");
+
+  for(var i=1;i<=tagList.length;i++){
+    tagList[i-1] = tagList[i-1].replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+  } 
+
+//console.log(tagList);
+});
+
 
 ///////////////////
 //SECTION 3 BEGINS
@@ -1487,7 +1543,7 @@ function publish(){
     $("#publish").tooltip('hide');
     startRecordingPublish();
     //publishButton.textContent = 'Publishing';
-    editStatus.innerHTML = ("Status: Publishing...");
+    editStatus.innerHTML = ("Status: Publishing...<div class='spinner1'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>");
     document.getElementById("toggleVid").disabled = true;
     document.getElementById("muteVid").disabled = true;
     document.getElementById("publish").disabled = true;
@@ -1636,6 +1692,7 @@ function uploadBlob(){
         fd.append('data', event.target.result);
         fd.append('title', vidName);
         fd.append('author', authorName);
+        fd.append('tags', tagList);
         $.ajax({
             type: 'POST',
             url: 'upload.php',

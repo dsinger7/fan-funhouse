@@ -74,16 +74,32 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main">
 
 
-<div class="miniNav">
+<div class="search-bar">
+
+<div class="col-md-2 col-sm-2 col-xs-2">
 <a href="create.html" target="_self"><img class="logo" src="css/logo.png"/></a>
+</div>
+
+<div class="col-md-8 col-sm-8 col-xs-8">
+  <div class="input-group">
+      <input type="text" class="form-control search-input" placeholder="Search for...">
+      <span class="input-group-btn">
+      <button class="btn btn-default" type="button"><img src="css/search.png"/></button>
+    </span>
+</div><!-- /input-group -->
+</div>
+
+<div class="col-md-2 col-sm-2 col-xs-2">
 <img class="avatar" src="css/avatar.png"/>
+</div>
+
 </div>
 
 
 <h1 class="freeform">Freeform</h1>
  
 <div class="steps">
-<p><span id="s1">1) Record Video </span>&#8226; <span id="s2">2) Edit and Publish </span>
+<p><span id="s1">Record </span>&#10142; <span id="s2">Edit </span>
 </div> 
 
 
@@ -94,12 +110,19 @@
 
 <div id="setDuration">Set Duration: <span class="seconds" id="duration">09</span>s
 <div id="durationSlider"></div></div>
-<div class="seconds" id="countdown" style="display:none;">15</div>
+<div class="seconds" id="countdown" style="display:none;">09</div>
+<div id="preCount" style="display:none;">
+  <span id="three">3</span>
+  <span id="two">2</span>
+  <span id="one">1</span>
+</div>
+
 </div>
 
 <video id="recordVid" controls autoplay muted="muted"></video><br>
 
 <button id="rec" class="ui-button btn btn-primary" onclick="onBtnRecordClicked()">Record</button>
+<!--<button id="rec" class="ui-button btn btn-primary" onclick="recordCountdown()">Record</button>-->
 </div>
 
 </div><!--END STEP 1-->
@@ -109,23 +132,24 @@
           
 <div class="col-lg-6 col-md-7 col-sm-12 col-xs-12">
 
-<div class="card card-s2A">
+<div class="card card-s2B">
 <div id="editStatus">
-Status: Waiting for Recording</div> 
+Status: Waiting for Recording
+</div> 
 <div id="editCol"></div>
 <div id="toggles">
 <button id="toggleVid" class="ui-button btn btn-primary" onclick="toggleVid()"><img src="css/pause.png" /></button>
 <button id="muteVid" class="ui-button btn btn-primary" onclick="muteVid()"><img src="css/mute.png" /></button>
 </div>
-</div>
+<!--</div>-->
 
-<div class="card card-s2B">
+<!--<div class="card card-s2B">-->
 <div class="effectsButtons">
 <button id="glitch" class="btn btn-danger glitch" draggable="true" onclick="glitchClick()" ondragend="glitchAdd(event)">Glitch</button>
 <button id="saturate" class="btn btn-info saturate" draggable="true" onclick="saturateClick()" ondragend="saturateAdd(event)">Saturate</button>
 <button id="slow" class="btn btn-warning slow" draggable="true" onclick="slowClick()" ondragend="slowAdd(event)">Slow</button>
 <button id="freeze" class="btn btn-success freeze" style="display:none;">Great Job!</button>
-<button id="stutter" class="btn btn-primary stutter" draggable="true" onclick="stutterClick()" ondragend="stutterAdd(event)">Stutter</button>
+<button id="stutter" class="btn btn-success stutter" draggable="true" onclick="stutterClick()" ondragend="stutterAdd(event)">Stutter</button>
 </div>
 
 <div class="effectsPanel" ondragover="allowDrop(event)">
@@ -144,7 +168,8 @@ Status: Waiting for Recording</div>
 <div class="card card-s2C">
 <div id="publish-box">
 <p><b>Video Name:</b> <input id="vidName" type="text" placeholder="Enter video name..."/>
-<p><b>Author Name:</b> <input id="authorName" type="text" placeholder="Enter author name..."/> 
+<p><b>Author Name:</b> <input id="authorName" type="text" placeholder="Enter author name..."/>
+<p><b>Tags:</b> <input id="tags" type="text" placeholder="use,commas,to,separate"/> 
 <br><br>
 <button id="publish" class="ui-button btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Publish your video to the Fan Funhouse website!">Publish</button>
 
@@ -191,6 +216,12 @@ Status: Waiting for Recording</div>
 
 
 <a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a> 
+
+
+<audio id="countdownSound1">
+<source src="css/countdownFinal.mp3" type="audio/mpeg">
+</audio>
+
 
 </div><!--END CONTAINER-->
 
