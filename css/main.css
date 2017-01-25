@@ -3,10 +3,11 @@ a {
 }
 
 .avatar{
-width: 40px;
-margin-left: 10px;
-margin-right: 10px;
-margin-top: 10px; 
+width:40px;
+display:block;
+margin-top: 10px;
+margin-left:auto;
+margin-right:auto;
 }
 
 #authorNameFinal{
@@ -31,6 +32,54 @@ body {
   box-shadow:0px 1px 0px;
   top:3px;
 }
+
+
+.btn-default{
+  box-shadow: 0px 0px 0px #888888 !important;
+}
+
+.btn-danger{
+  background-color:#c0392b !important;
+  border:1px solid #c0392b !important;
+}
+
+.btn-danger:hover{
+  background-color:#ab3326 !important;
+  border:1px solid #ab3326 !important;
+}
+
+.btn-info{
+  background-color:#8e44ad !important;
+  border:1px solid #8e44ad !important;
+}
+
+.btn-info:hover{
+  background-color:#7f3d9b !important;
+  border:1px solid #7f3d9b !important;
+}
+
+.btn-warning{
+  background-color:#e67e22 !important;
+  border:1px solid #e67e22 !important;
+}
+
+.btn-warning:hover{
+  background-color:#d67118 !important;
+  border:1px solid #d67118 !important;
+}
+
+.btn-success{
+  color:#ffffff !important;
+  background-color:#27ae60 !important;
+  border:1px solid #27ae60 !important;
+}
+
+.btn-success:hover{
+  color:#ffffff !important;
+  background-color:#229955 !important;
+  border:1px solid #229955 !important;
+}
+
 
 canvas {
   background-color: #ccc;
@@ -84,7 +133,7 @@ box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 
 #countdown{
   width:60px;
-  border: 2px solid #ffffff;
+  border: 2px solid red;
   border-radius: 30px;
   margin-left: auto;
   margin-right: auto;
@@ -165,6 +214,7 @@ box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   position:relative;
 }
 
+
 .freeform, .steps p{
   color: #ffffff;
   font-weight: 300;
@@ -195,10 +245,18 @@ box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   color:#5c6164;
 }
 
+.input-group{
+position:relative;
+top:10px;
+width:100%;
+}
+
 .logo{
-  width: 40px;
-  margin-left: 10px;
-  margin-top: 10px;
+width:40px;
+display:block;
+margin-top: 10px;
+margin-left:auto;
+margin-right: auto; 
 }
 
 .miniNav{
@@ -223,6 +281,19 @@ margin-bottom: 20px;
 
 .noUi-connect {
   z-index: 2;
+}
+
+#one, #two, #three{
+  font-size: 36px !important;
+  margin-left: 10px;
+  margin-right: 10px; 
+}
+
+#preCount{
+  width:100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 progress[value] {
@@ -296,6 +367,12 @@ progress[value]::-webkit-progress-value {
   padding-left: 5px;
 }
 
+.search-bar{
+background: rgba(237,240,246,0.60);
+height:60px;
+margin-bottom: 20px;  
+}
+
 .seconds{
     text-align: center;
 }
@@ -354,7 +431,7 @@ font-weight: 300;
   -webkit-transform: scale(0.9); /* Safari */
   transform: scale(0.9);
 }
- #toggleVid:hover, #muteVid, #redo{
+ #toggleVid:hover, #muteVid:hover, #redo{
   background:#333333 !important;
   display:inline-block;
   margin-left: auto;
@@ -389,3 +466,52 @@ video {
 #vidNameFinal{
   font-size: 32px;
 }
+
+
+
+/*http://tobiasahlin.com/spinkit/*/
+.spinner1 {
+  display:inline-block;
+  margin: 0px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner1 > div {
+  width: 18px;
+  height: 18px;
+  background-color: #595959;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner1 .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner1 .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+
+
+
