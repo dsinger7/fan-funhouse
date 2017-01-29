@@ -12,6 +12,8 @@ margin-right:auto;
 
 #authorNameFinal{
   font-size: 24px;
+  color: #ffffff;
+  font-weight: 300;
 }
 
 body {
@@ -359,12 +361,23 @@ progress[value]::-webkit-progress-value {
 }
 
 #s1 {
-  font-weight: 600;
-  padding-right: 5px;
+  margin-right: 5px;
+  text-decoration: underline;
 }
 
 #s2{
-  padding-left: 5px;
+  margin-left: 5px;
+}
+
+#s1,#s2{
+  display:inline-block;
+  background:#000000;
+  color:#FFFFFF;
+  width:80px;
+  text-align: center;
+  font-family: 'Source Code Pro', monospace;
+  -moz-text-decoration-color: #F40B0B; /* Code for Firefox */
+  text-decoration-color: #F40B0B; 
 }
 
 .search-bar{
@@ -388,6 +401,10 @@ margin-bottom: 20px;
 
 #spinner{
   display:inline-block;
+}
+
+.steps{
+  font-size: 18px;
 }
 
 .step1{
@@ -465,6 +482,8 @@ video {
 
 #vidNameFinal{
   font-size: 32px;
+  color: #ffffff;
+  font-weight: 300;
 }
 
 
