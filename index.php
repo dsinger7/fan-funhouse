@@ -7,7 +7,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta id="theme-color" name="theme-color" content="#fff">
 
-<base target="_blank">
 
 <title>Fan Funhouse - Freeform</title>
 
@@ -59,7 +58,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.css"/>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 </head>
 
 
@@ -70,26 +69,28 @@
 
 <div class="container">
 
-<div class="row">
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main">
+<div class="row">
 
 
 <div class="search-bar">
 
-<div class="col-md-2 col-sm-2 col-xs-2">
-<a href="create.html" target="_self"><img class="logo" src="css/logo.png"/></a>
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+<a href="create.php" target="_self"><img class="logo" src="css/logo.png"/></a>
 </div>
 
-<div class="col-md-8 col-sm-8 col-xs-8">
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+  <form method="post" action="search.php?go" id="searchform" target="_self">
   <div class="input-group">
-      <input type="text" class="form-control search-input" placeholder="Search for...">
+      <input type="text" name="name" id="search" class="form-control search-input" placeholder="Search for...">
       <span class="input-group-btn">
-      <button class="btn btn-default" type="button"><img src="css/search.png"/></button>
+      <button class="btn btn-default" type="submit" name="submit"><img src="css/search.png"/></button>
     </span>
-</div><!-- /input-group -->
+</div><!-- /input-group --> 
+</form>
 </div>
 
-<div class="col-md-2 col-sm-2 col-xs-2">
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
 <img class="avatar" src="css/avatar.png"/>
 </div>
 
@@ -99,7 +100,7 @@
 <h1 class="freeform">Freeform</h1>
  
 <div class="steps">
-<p><span id="s1">Record </span>&#10142; <span id="s2">Edit </span>
+<p><span id="s1">record </span>&#10142; <span id="s2">edit </span>
 </div> 
 
 
@@ -174,7 +175,7 @@ Status: Waiting for Recording
 <button id="publish" class="ui-button btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Publish your video to the Fan Funhouse website!">Publish</button>
 
 <div id="viewVideo1" style="display:none;">
-<p><a id="viewLink1">Submitted! View your video here.</a>
+<p><a id="viewLink1" target="_self">Submitted! View your video here.</a>
 </div>
 
 </div>
