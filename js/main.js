@@ -30,23 +30,11 @@ var count = 0;
 var recording = false;
 
 //p5 video setup and effects (Step 2)
-var src;
-var video;
-var canvas;
+var src,video,canvas;
 var muted = false;
 var playing = false;
-var playButton;
-var target;
-var blur;
-var addNoise;
-var tv;
-var repeat;
-var crop;
-var ripple;
-var hueSaturation;
-var reformat;
-var greatJobAudio;
-var framePreview;
+var playButton,target,blur,addNoise,tv,repeat,crop,ripple,hueSaturation;
+var reformat,greatJobAudio,framePreview;
 var editCol = document.getElementById('editCol');
 document.getElementById("toggleVid").disabled = true;
 document.getElementById("publish").disabled = true;
@@ -96,9 +84,7 @@ var panel3End = 0;
 var panelStartArray = [panel1Start,panel2Start,panel3Start];
 var panelEndArray = [panel1End,panel2End,panel3End];
 
-var newSlider1;
-var newSlider2;
-var newSlider3;
+var newSlider1,newSlider2,newSlider3;
 var newSliderArray = [newSlider1,newSlider2,newSlider3];
 
 var panel1StartEnd = [0,1];
@@ -128,7 +114,6 @@ var canvasPublish;
 //Redo state (Step 3)
 var redoButton = document.querySelector('button#redo');
 redoButton.onclick = redo;
-
 
 
 ///////////////////
@@ -840,7 +825,6 @@ for(var i=0;i<3;i++){
   } 
 }
 
-
   //SECTION 2.4.4: Seriously "Stutter" effect 
 
 /*
@@ -997,8 +981,8 @@ function allowDrop(ev) {
 }
 
 //ADD WITH CLICKING AND DRAGGING
-//SECTION 2.5.1: Glitch effect sliders
-function glitchAdd(event){
+
+function makeSliderDrop(event,panelEffect,effectName,min,sliderColor){
   event.preventDefault();  
   event.stopPropagation();
   var dropStatus = event.dataTransfer.dropEffect;
@@ -1006,9 +990,8 @@ function glitchAdd(event){
 
   if(panel1Filled === false){
     panel1Filled = true;
-    panel1Effect = "Glitch";
-    //effect1 = tv;
-    $(".effectPanel1").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    panel1Effect = panelEffect;
+    $(".effectPanel1").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0,0.5],
@@ -1018,18 +1001,17 @@ function glitchAdd(event){
       orientation:'horizontal',
       behaviour:'tap-drag',
       range:{
-        'min':0,
+        'min':min,
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#c0392b");
+    $("#newSlider1 .noUi-connect").css("background",sliderColor);
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
       panel2Filled = true;
-      panel2Effect = "Glitch";
-      //effect2 = tv;
-      $(".effectPanel2").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      panel2Effect = panelEffect;
+      $(".effectPanel2").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0,0.5],
@@ -1039,18 +1021,17 @@ function glitchAdd(event){
         orientation:'horizontal',
         behaviour:'tap-drag',
         range:{
-          'min':0,
+          'min':min,
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#c0392b");
+      $("#newSlider2 .noUi-connect").css("background",sliderColor);
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
         panel3Filled = true;
-        panel3Effect = "Glitch";
-        //effect3 = tv;
-        $(".effectPanel3").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        panel3Effect = panelEffect;
+        $(".effectPanel3").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
           start:[0,0.5],
@@ -1060,11 +1041,11 @@ function glitchAdd(event){
           orientation:'horizontal',
           behaviour:'tap-drag',
           range:{
-            'min':0,
+            'min':min,
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#c0392b");
+        $("#newSlider3 .noUi-connect").css("background",sliderColor);
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1072,14 +1053,15 @@ function glitchAdd(event){
   }//ELSE for Panel 3
   }//ELSE for Panel 2
   }//ELSE for Panel 1
+}  
 }
-}
-function glitchClick(){
+
+
+function makeSlider(panelEffect,effectName,min,sliderColor){
   if(panel1Filled === false){
     panel1Filled = true;
-    panel1Effect = "Glitch";
-    //effect1 = tv;
-    $(".effectPanel1").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    panel1Effect = panelEffect;
+    $(".effectPanel1").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
       start:[0,0.5],
@@ -1089,18 +1071,17 @@ function glitchClick(){
       orientation:'horizontal',
       behaviour:'tap-drag',
       range:{
-        'min':0,
+        'min':min,
         'max':duration
       }
     });
-    $("#newSlider1 .noUi-connect").css("background","#c0392b");
+    $("#newSlider1 .noUi-connect").css("background",sliderColor);
     panel1StartEnd = newSlider1.noUiSlider.get();
   } else{
     if(panel2Filled === false){
       panel2Filled = true;
-      panel2Effect = "Glitch";
-      //effect2 = tv;
-      $(".effectPanel2").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      panel2Effect = panelEffect;
+      $(".effectPanel2").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
         start:[0,0.5],
@@ -1110,18 +1091,17 @@ function glitchClick(){
         orientation:'horizontal',
         behaviour:'tap-drag',
         range:{
-          'min':0,
+          'min':min,
           'max':duration
         }
       });
-      $("#newSlider2 .noUi-connect").css("background","#c0392b");
+      $("#newSlider2 .noUi-connect").css("background",sliderColor);
       panel2StartEnd = newSlider2.noUiSlider.get();
     } else{
       if(panel3Filled === false){
         panel3Filled = true;
-        panel3Effect = "Glitch";
-        //effect3 = tv;
-        $(".effectPanel3").html("<span class='effectName'>Glitch</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        panel3Effect = panelEffect;
+        $(".effectPanel3").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
           start:[0,0.5],
@@ -1131,11 +1111,11 @@ function glitchClick(){
           orientation:'horizontal',
           behaviour:'tap-drag',
           range:{
-            'min':0,
+            'min':min,
             'max':duration
           }
         });
-        $("#newSlider3 .noUi-connect").css("background","#c0392b");
+        $("#newSlider3 .noUi-connect").css("background",sliderColor);
         panel3StartEnd = newSlider3.noUiSlider.get();
       }
       else{
@@ -1144,447 +1124,45 @@ function glitchClick(){
   }//ELSE for Panel 2
   }//ELSE for Panel 1
 }
+
+//SECTION 2.5.1: Glitch effect sliders
+function glitchAdd(){
+ makeSliderDrop(event,"Glitch","Glitch",0,"#c0392b"); 
+}
+
+function glitchClick(){
+  makeSlider("Glitch","Glitch",0,"#c0392b");
+}
+
 
 //SECTION 2.5.2: Saturate effect sliders
-function saturateAdd(event){
-  event.preventDefault();  
-  event.stopPropagation();
-  var dropStatus = event.dataTransfer.dropEffect;
-  if(dropStatus === "copy"){
-
-  if(panel1Filled === false){
-    panel1Filled = true;
-    panel1Effect = "Saturate";
-    //effect1 = hueSaturation;
-    $(".effectPanel1").html("<span class='effectName'>Saturate</span> </span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
-    newSlider1 = document.getElementById('newSlider1');
-    noUiSlider.create(newSlider1, {
-      start:[0,0.5],
-      tooltips: [ false, false ],
-      step:0.01,
-      connect:true,
-      orientation:'horizontal',
-      behaviour:'tap-drag',
-      range:{
-        'min':0,
-        'max':duration
-      }
-    });
-    $("#newSlider1 .noUi-connect").css("background","#8e44ad");
-    panel1StartEnd = newSlider1.noUiSlider.get();
-  } else{
-    if(panel2Filled === false){
-      panel2Filled = true;
-      panel2Effect = "Saturate";
-      //effect2 = hueSaturation;
-      $(".effectPanel2").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
-      newSlider2 = document.getElementById('newSlider2');
-      noUiSlider.create(newSlider2, {
-        start:[0,0.5],
-        tooltips: [ false, false ],
-        step:0.01,
-        connect:true,
-        orientation:'horizontal',
-        behaviour:'tap-drag',
-        range:{
-          'min':0,
-          'max':duration
-        }
-      });
-      $("#newSlider2 .noUi-connect").css("background","#8e44ad");
-      panel2StartEnd = newSlider2.noUiSlider.get();
-    } else{
-      if(panel3Filled === false){
-        panel3Filled = true;
-        panel3Effect = "Saturate";
-        //effect3 = hueSaturation;
-        $(".effectPanel3").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
-        newSlider3 = document.getElementById('newSlider3');
-
-        noUiSlider.create(newSlider3, {
-          start:[0,0.5],
-          tooltips: [ false, false ],
-          step:0.01,
-          connect:true,
-          orientation:'horizontal',
-          behaviour:'tap-drag',
-          range:{
-            'min':0,
-            'max':duration
-          }
-        });
-        $("#newSlider3 .noUi-connect").css("background","#8e44ad");
-        panel3StartEnd = newSlider3.noUiSlider.get();
-      }
-      else{
-        alert("Please delete an existing effect to add a new one.");
-}//ELSE for Panel 3
-}//ELSE for Panel 2
-}//ELSE for Panel 1
+function saturateAdd(){
+  makeSliderDrop(event,"Saturate","Saturate",0,"#8e44ad");
 }
-}
+
 function saturateClick(){
-  if(panel1Filled === false){
-    panel1Filled = true;
-    panel1Effect = "Saturate";
-    //effect1 = hueSaturation;
-    $(".effectPanel1").html("<span class='effectName'>Saturate</span> </span><span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
-    newSlider1 = document.getElementById('newSlider1');
-    noUiSlider.create(newSlider1, {
-      start:[0,0.5],
-      tooltips: [ false, false ],
-      step:0.01,
-      connect:true,
-      orientation:'horizontal',
-      behaviour:'tap-drag',
-      range:{
-        'min':0,
-        'max':duration
-      }
-    });
-    $("#newSlider1 .noUi-connect").css("background","#8e44ad");
-    panel1StartEnd = newSlider1.noUiSlider.get();
-  } else{
-    if(panel2Filled === false){
-      panel2Filled = true;
-      panel2Effect = "Saturate";
-      //effect2 = hueSaturation;
-      $(".effectPanel2").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
-      newSlider2 = document.getElementById('newSlider2');
-      noUiSlider.create(newSlider2, {
-        start:[0,0.5],
-        tooltips: [ false, false ],
-        step:0.01,
-        connect:true,
-        orientation:'horizontal',
-        behaviour:'tap-drag',
-        range:{
-          'min':0,
-          'max':duration
-        }
-      });
-      $("#newSlider2 .noUi-connect").css("background","#8e44ad");
-      panel2StartEnd = newSlider2.noUiSlider.get();
-    } else{
-      if(panel3Filled === false){
-        panel3Filled = true;
-        panel3Effect = "Saturate";
-        //effect3 = hueSaturation;
-        $(".effectPanel3").html("<span class='effectName'>Saturate</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
-        newSlider3 = document.getElementById('newSlider3');
-
-        noUiSlider.create(newSlider3, {
-          start:[0,0.5],
-          tooltips: [ false, false ],
-          step:0.01,
-          connect:true,
-          orientation:'horizontal',
-          behaviour:'tap-drag',
-          range:{
-            'min':0,
-            'max':duration
-          }
-        });
-        $("#newSlider3 .noUi-connect").css("background","#8e44ad");
-        panel3StartEnd = newSlider3.noUiSlider.get();
-      }
-      else{
-        alert("Please delete an existing effect to add a new one.");
-}//ELSE for Panel 3
-}//ELSE for Panel 2
-}//ELSE for Panel 1
+  makeSlider("Saturate","Saturate",0,"#8e44ad");
 }
+
 
 //SECTION 2.5.3: Slow effect sliders
-function slowAdd(event){
-  event.preventDefault();  
-  event.stopPropagation();
-  var dropStatus = event.dataTransfer.dropEffect;
-  if(dropStatus === "copy"){
+function slowAdd(){
+  makeSliderDrop(event,"Slow","Slow",0,"#e67e22");
+}
 
-  if(panel1Filled === false){
-    panel1Filled = true;
-    panel1Effect = "Slow";
-    //effect1 = reformat;
-    $(".effectPanel1").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
-    newSlider1 = document.getElementById('newSlider1');
-    noUiSlider.create(newSlider1, {
-      start:[0,0.5],
-      tooltips: [ false, false ],
-      step:0.01,
-      connect:true,
-      orientation:'horizontal',
-      behaviour:'tap-drag',
-      range:{
-        'min':0,
-        'max':duration
-      }
-    });
-    $("#newSlider1 .noUi-connect").css("background","#e67e22");
-    panel1StartEnd = newSlider1.noUiSlider.get();
-  } else{
-    if(panel2Filled === false){
-      panel2Filled = true;
-      panel2Effect = "Slow";
-      //effect2 = reformat;
-      $(".effectPanel2").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
-      newSlider2 = document.getElementById('newSlider2');
-      noUiSlider.create(newSlider2, {
-        start:[0,0.5],
-        tooltips: [ false, false ],
-        step:0.01,
-        connect:true,
-        orientation:'horizontal',
-        behaviour:'tap-drag',
-        range:{
-          'min':0,
-          'max':duration
-        }
-      });
-      $("#newSlider2 .noUi-connect").css("background","#e67e22");
-      panel2StartEnd = newSlider2.noUiSlider.get();
-    } else{
-      if(panel3Filled === false){
-        panel3Filled = true;
-        panel3Effect = "Slow";
-        //effect3 = reformat;
-        $(".effectPanel3").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
-        newSlider3 = document.getElementById('newSlider3');
-        noUiSlider.create(newSlider3, {
-          start:[0,0.5],
-          tooltips: [ false, false ],
-          step:0.01,
-          connect:true,
-          orientation:'horizontal',
-          behaviour:'tap-drag',
-          range:{
-            'min':0,
-            'max':duration
-          }
-        });
-        $("#newSlider3 .noUi-connect").css("background","#e67e22");
-        panel3StartEnd = newSlider3.noUiSlider.get();
-      }
-      else{
-        alert("Please delete an existing effect to add a new one.");
-}//ELSE for Panel 3
-}//ELSE for Panel 2
-}//ELSE for Panel 1
-}
-}
 function slowClick(){
-  if(panel1Filled === false){
-    panel1Filled = true;
-    panel1Effect = "Slow";
-    //effect1 = reformat;
-    $(".effectPanel1").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
-    newSlider1 = document.getElementById('newSlider1');
-    noUiSlider.create(newSlider1, {
-      start:[0,0.5],
-      tooltips: [ false, false ],
-      step:0.01,
-      connect:true,
-      orientation:'horizontal',
-      behaviour:'tap-drag',
-      range:{
-        'min':0,
-        'max':duration
-      }
-    });
-    $("#newSlider1 .noUi-connect").css("background","#e67e22");
-    panel1StartEnd = newSlider1.noUiSlider.get();
-  } else{
-    if(panel2Filled === false){
-      panel2Filled = true;
-      panel2Effect = "Slow";
-      //effect2 = reformat;
-      $(".effectPanel2").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
-      newSlider2 = document.getElementById('newSlider2');
-      noUiSlider.create(newSlider2, {
-        start:[0,0.5],
-        tooltips: [ false, false ],
-        step:0.01,
-        connect:true,
-        orientation:'horizontal',
-        behaviour:'tap-drag',
-        range:{
-          'min':0,
-          'max':duration
-        }
-      });
-      $("#newSlider2 .noUi-connect").css("background","#e67e22");
-      panel2StartEnd = newSlider2.noUiSlider.get();
-    } else{
-      if(panel3Filled === false){
-        panel3Filled = true;
-        panel3Effect = "Slow";
-        //effect3 = reformat;
-        $(".effectPanel3").html("<span class='effectName'>Slow</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
-        newSlider3 = document.getElementById('newSlider3');
-
-        noUiSlider.create(newSlider3, {
-          start:[0,0.5],
-          tooltips: [ false, false ],
-          step:0.01,
-          connect:true,
-          orientation:'horizontal',
-          behaviour:'tap-drag',
-          range:{
-            'min':0,
-            'max':duration
-          }
-        });
-        $("#newSlider3 .noUi-connect").css("background","#e67e22");
-        panel3StartEnd = newSlider3.noUiSlider.get();
-      }
-      else{
-        alert("Please delete an existing effect to add a new one.");
-}//ELSE for Panel 3
-}//ELSE for Panel 2
-}//ELSE for Panel 1
+  makeSlider("Slow","Slow",0,"#e67e22");
 }
 
 //SECTION 2.5.4: Stutter effect sliders
-function stutterAdd(event){
-  event.preventDefault();  
-  event.stopPropagation();
-  var dropStatus = event.dataTransfer.dropEffect;
-  if(dropStatus === "copy"){
+function stutterAdd(){
+  makeSliderDrop(event,"Stutter","Stutter",0.05,"#27ae60");
+}
 
-  if(panel1Filled === false){
-    panel1Filled = true;
-    panel1Effect = "Stutter";
-    $(".effectPanel1").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
-    newSlider1 = document.getElementById('newSlider1');
-    noUiSlider.create(newSlider1, {
-      start:[0, 0.5],
-      tooltips: [false, false],
-      step:0.01,
-      connect:true,
-      orientation:'horizontal',
-      behaviour:'tap-drag',
-      range:{
-        'min':0.05,
-        'max':duration
-      }
-    });
-    $("#newSlider1 .noUi-connect").css("background","#27ae60");
-    panel1StartEnd = newSlider1.noUiSlider.get();
-  } else{
-    if(panel2Filled === false){
-      panel2Filled = true;
-      panel2Effect = "Stutter";
-      $(".effectPanel2").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
-      newSlider2 = document.getElementById('newSlider2');
-      noUiSlider.create(newSlider2, {
-        start:[0, 0.5],
-        tooltips: [ false, false ],
-        step:0.01,
-        connect:true,
-        orientation:'horizontal',
-        behaviour:'tap-drag',
-        range:{
-          'min':0.05,
-          'max':duration
-        }
-      });
-      $("#newSlider2 .noUi-connect").css("background","#27ae60");
-      panel2StartEnd = newSlider2.noUiSlider.get();
-    } else{
-      if(panel3Filled === false){
-        panel3Filled = true;
-        panel3Effect = "Stutter";
-        $(".effectPanel3").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
-        newSlider3 = document.getElementById('newSlider3');
-        noUiSlider.create(newSlider3, {
-          start:[0, 0.5],
-          tooltips: [ false, false ],
-          step:0.01,
-          connect:true,
-          orientation:'horizontal',
-          behaviour:'tap-drag',
-          range:{
-            'min':0.05,
-            'max':duration
-          }
-        });
-        $("#newSlider3 .noUi-connect").css("background","#27ae60");
-        panel3StartEnd = newSlider3.noUiSlider.get();
-      }
-      else{
-        alert("Please delete an existing effect to add a new one.");
-}//ELSE for Panel 3
-}//ELSE for Panel 2
-}//ELSE for Panel 1
+function stutterClick(){
+  makeSlider("Stutter","Stutter",0.05,"#27ae60");
 }
-}
-function stutterClick(event){
-  if(panel1Filled === false){
-    panel1Filled = true;
-    panel1Effect = "Stutter";
-    $(".effectPanel1").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
-    newSlider1 = document.getElementById('newSlider1');
-    noUiSlider.create(newSlider1, {
-      start:[0,0.5],
-      tooltips: [false,false],
-      step:0.01,
-      connect:true,
-      orientation:'horizontal',
-      behaviour:'tap-drag',
-      range:{
-        'min':0.05,
-        'max':duration
-      }
-    });
-    $("#newSlider1 .noUi-connect").css("background","#27ae60");
-    panel1StartEnd = newSlider1.noUiSlider.get();
-  } else{
-    if(panel2Filled === false){
-      panel2Filled = true;
-      panel2Effect = "Stutter";
-      $(".effectPanel2").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
-      newSlider2 = document.getElementById('newSlider2');
-      noUiSlider.create(newSlider2, {
-        start:[0,0.5],
-        tooltips: [ false, false ],
-        step:0.01,
-        connect:true,
-        orientation:'horizontal',
-        behaviour:'tap-drag',
-        range:{
-          'min':0.05,
-          'max':duration
-        }
-      });
-      $("#newSlider2 .noUi-connect").css("background","#27ae60");
-      panel2StartEnd = newSlider2.noUiSlider.get();
-    } else{
-      if(panel3Filled === false){
-        panel3Filled = true;
-        panel3Effect = "Stutter";
-        $(".effectPanel3").html("<span class='effectName'>Stutter</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
-        newSlider3 = document.getElementById('newSlider3');
-        noUiSlider.create(newSlider3, {
-          start:[0,0.5],
-          tooltips: [ false, false ],
-          step:0.01,
-          connect:true,
-          orientation:'horizontal',
-          behaviour:'tap-drag',
-          range:{
-            'min':0.05,
-            'max':duration
-          }
-        });
-        $("#newSlider3 .noUi-connect").css("background","#27ae60");
-        panel3StartEnd = newSlider3.noUiSlider.get();
-      }
-      else{
-        alert("Please delete an existing effect to add a new one.");
-}//ELSE for Panel 3
-}//ELSE for Panel 2
-}//ELSE for Panel 1
-}
+
 
 //SECTION 2.5.6: Delete any effect
 $(document).on("click",".deleteEffect",function(){
@@ -1786,5 +1364,4 @@ function uploadBlob(){
     };      
     // trigger the read from the reader...
     reader.readAsDataURL(superBuffer);
-
 }
