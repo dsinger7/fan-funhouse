@@ -16,6 +16,10 @@ margin-left:auto;
 margin-right:auto;
 }
 
+.btn-default{
+	width:50px;
+}
+
 .btn-primary{
 box-shadow: 2px 2px 4px #888888;
 border-radius:2px;
@@ -68,6 +72,7 @@ text-decoration: underline;
 -moz-text-decoration-color: #F40B0B; /* Code for Firefox */
 text-decoration-color: #F40B0B;	
 }
+
 
 .featured{
   color: #ffffff;
@@ -126,6 +131,35 @@ margin-bottom: 20px;
 	
 }
 
+.search-result .card{
+width:100% !important;
+min-width: 320px;
+display:block;
+margin-left: auto;
+margin-right: auto;
+}
+
+.search-result .searchVid{
+width:320px;
+height:240px;
+display:block;
+margin-left: auto;
+margin-right: auto;
+border-radius: 2px;
+}
+
+.search-result .card-title{
+font-size: 16px;
+}
+
+.search-result .card-text{
+font-size: 12px;
+}
+
+.social-share{
+	margin-left: 10px;
+}
+
 
 .title{
 width:60%;
@@ -164,28 +198,33 @@ font-size: 16px;
 font-size: 12px;
 }
 
-.search-result .card{
-width:100% !important;
-min-width: 320px;
-display:block;
+
+
+#myVideo{
+	width:100% !important;
+	max-width:400px !important;
+	max-height:300px !important;
+	min-width: 320px;
+	min-height: 240px;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.card-published{
+width: 100% !important;	
+min-width: 330px !important;
+max-width:400px !important; 
+position:relative;
 margin-left: auto;
 margin-right: auto;
 }
 
-.search-result .searchVid{
-width:320px;
-height:240px;
-display:block;
-margin-left: auto;
-margin-right: auto;
-border-radius: 2px;
+
+.published .card-title{
+font-size: 22px;
 }
 
-.search-result .card-title{
+.published .card-text{
 font-size: 16px;
 }
-
-.search-result .card-text{
-font-size: 12px;
-}
-

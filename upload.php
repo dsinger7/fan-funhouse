@@ -39,7 +39,7 @@ $txt = "
 <title>{$title} - Fan Funhouse</title>
 
  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'>
- <link rel='stylesheet' href='../css/main.css' />
+ <link rel='stylesheet' href='../css/home.css' />
 </head>
 
 <body>
@@ -58,7 +58,7 @@ $txt = "
 <div class='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
 	<form method='post' action='../search.php?go' id='searchform' target='_self'>
 	<div class='input-group'>
-  		<input type='text' name='name' id='search' class='form-control search-input' placeholder='Search for...''>
+  		<input type='text' name='name' id='search' class='form-control search-input' placeholder='Search for...'>
   		<span class='input-group-btn'>
     	<button class='btn btn-default' type='submit' name='submit'><img src='css/search.png'/></button>
   	</span>
@@ -74,22 +74,60 @@ $txt = "
 
 
 
+<div class='card card-published'>
+	<video class='published' id='myVideo' controls loop>
+	<source src='{$fileLocation}' type='video/webm'>
+	</video>
+  <div class='published card-block'>
+    <h4 class='published card-title'>{$title}</h4>
+    <p class='published card-text'>{$author}
+    </p>
 
-<div class='col-md-6'>
+    <a 
+    href='mailto:?subject=Check out this video I made with Fan Funhouse!&amp;body=https://fanfunhouse.lmc.gatech.edu/{$fURL}%0D%0A%0D%0AMake your own videos inspired by Tim and Eric at https://fanfunhouse.lmc.gatech.edu' 
+    target='_self'>
+    <img src='../css/email.png' width='40'/>
+    </a>
 
-<div id='vidNameFinal'>{$title}</div><div id='authorNameFinal'>Created By: {$author}</div>
-<video id='myVideo' autoplay controls loop>
-<source src='{$fileLocation}' type='video/webm'>
-</video><br><br>
-<img src='https://www.digitalgov.gov/files/2015/04/400-x-72-fb-twitter-email-plus-sign.jpg' style='width:320px;'>
+    <a class='social-share'
+    target='_blank' OnClick='window.open(this.href,&quot;targetWindow&quot;,&quot;toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250&quot;); return false;' 
+    href='https://www.facebook.com/sharer/sharer.php?u=https://fanfunhouse.lmc.gatech.edu/{$fURL}'
+    target='_self'>
+    <img src='../css/facebook.png' width='40'/>
+    </a>
 
+    <a class='social-share' 
+    href='https://twitter.com/home?status=Check out this video I made with Fan Funhouse: https://fanfunhouse.lmc.gatech.edu/{$fURL}'
+    target='_blank' OnClick='window.open(this.href,&quot;targetWindow&quot;,&quot;toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250&quot;); return false;'>
+    <img src='../css/twitter.png' width='40'/>
+    </a>
+
+    <a class='social-share' 
+    href='http://www.tumblr.com/share/link?url=https://fanfunhouse.lmc.gatech.edu/{$fURL}'
+    target='_blank' OnClick='window.open(this.href,&quot;targetWindow&quot;,&quot;toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250&quot;); return false;'>
+    <img src='../css/tumblr.png' width='40'/>
+    </a>
+ 
+  </div>
 </div>
+
+
 </div>
 </div>
 </div>
 
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91405786-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 </body>
 </html>
@@ -107,7 +145,8 @@ function queryDB($sqlAction) {
 	$db_host = "db.iac.gatech.edu";
 	$db_database = "dsinger_fanfun";
 	$db_username = "dsinger_fanfun";
-	$db_password = "YES"; 
+	$db_password = "EuICYOFGYFVuvMmv"; 
+	//fanfun2: R7tCF87nVZwoKzDf
 	// put your DATABASE password (not tsquare pw!) here
 	//the database, username, and password information will be automatically generated for you by http://db.iac.gatech.edu/databases/
 
@@ -138,7 +177,7 @@ function queryDB($sqlAction) {
 
 queryDB("INSERT INTO FreeformVids (url_num, title, author,keywords)
 VALUES ('{$fileNum}', '{$title}', '{$author}','{$tagList}')");
-*/
 
+*/
 
 ?>
