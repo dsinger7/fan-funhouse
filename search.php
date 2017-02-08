@@ -66,24 +66,25 @@ if(preg_match("/^[  a-zA-Z]+/", $_POST['name'])){
 	//echo  "<p>yes3</p>";
 	$name = $_POST['name'];
 	//connect to the database
-	$db = mysql_connect ("db.iac.gatech.edu",  "dsinger_fanfun", "YES") or die ('I cannot connect to the database because: ' . mysql_error()); 
+	$db = mysqli_connect ("db.iac.gatech.edu",  "dsinger_fanfun", "EuICYOFGYFVuvMmv","dsinger_fanfun") or die ('I cannot connect to the database because: ' . mysql_error()); 
 	//select database
-	$mydb = mysql_select_db("dsinger_fanfun");
 	//query the database table
+	
+	//SELECT * FROM FreeformWeb for server
 	$sql = "SELECT * FROM FreeformVids
  	WHERE author LIKE '%{$name}%'
  	OR title LIKE '%{$name}%' 
  	OR keywords LIKE '%{$name}%' ";
+ 	//$sql = "SELECT * FROM FreeformVids";
  	//run the query
- 	$result = mysql_query($sql);
+ 	$result = mysqli_query($db,$sql);
  	echo "<div class='featured'>Results for '{$name}'</div><br>";
  	//create while loop and loop through result set
- 	while($row = mysql_fetch_array($result)){
+ 	while($row = mysqli_fetch_assoc($result)){
  		$urlnum = $row['url_num'];
  		$title = $row['title'];
  		$author = $row['author'];
  	//display the result of the array
-
  	echo "
 
 
@@ -121,15 +122,6 @@ else{
 
 
 
-
-
-
-
-
-
-
-
-
 </div><!--END COL-->
 
 
@@ -145,18 +137,20 @@ else{
 
 
 
-
-
-
-
-
-
-
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script type="text/javascript" src="js/home.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-91405786-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 
 </body>

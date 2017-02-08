@@ -137,47 +137,18 @@ $txt = "
 fwrite($fPage, $txt);
 fclose($fPage);
 
-?>
+//SQL
+$db = mysqli_connect ("db.iac.gatech.edu",  "dsinger_fanfun", "EuICYOFGYFVuvMmv","dsinger_fanfun") or die ('I cannot connect to the database because: ' . mysqli_error()); 
 
-<?php
-/*
-function queryDB($sqlAction) {
-	$db_host = "db.iac.gatech.edu";
-	$db_database = "dsinger_fanfun";
-	$db_username = "dsinger_fanfun";
-	$db_password = "EuICYOFGYFVuvMmv"; 
-	//fanfun2: R7tCF87nVZwoKzDf
-	// put your DATABASE password (not tsquare pw!) here
-	//the database, username, and password information will be automatically generated for you by http://db.iac.gatech.edu/databases/
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
 
-	$connection = mysql_connect( $db_host, $db_username, $db_password );
-	
-	if(!$connection) {
-		echo "database error, code: " . mysql_error();
-		die();
-	} 
-	else
-	//echo "working"; 
-	{
-
-		$db_select = mysql_select_db( $db_database );
-		if( !$db_select ) {
-			echo "could not select :( error was " . mysql_error();
-			die();
-		} else {
-			$result = mysql_query($sqlAction) or
-				die( "Error: [" . mysql_error() . "]:{".mysql_errno()."}" );
-			mysql_close($connection);
-			return $result;
-		} // else - vs if( !$db_select )
-	} // else - vs if(!$connection)
-} // end of queryDB() 
-
-
-
-queryDB("INSERT INTO FreeformVids (url_num, title, author,keywords)
-VALUES ('{$fileNum}', '{$title}', '{$author}','{$tagList}')");
-
-*/
+//INSERT INTO FreeformWeb for server
+$sql = "INSERT INTO FreeformVids (url_num, title, author,keywords) 
+		VALUES ('{$fileNum}', '{$title}', '{$author}','{$tagList}')";
+mysqli_query($db,$sql);
 
 ?>
+
