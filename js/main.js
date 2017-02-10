@@ -59,7 +59,8 @@ var stutter2Counter = 0;
 var stutter2On = true;
 var stutter3Counter = 0;
 var stutter3On = true;
-
+var stutterNum1,stutterNum2,stutterNum3;
+var stutter1Filled = false, stutter2Filled = false, stutter3Filled = false;
 //Set up effect sliders
 //NEW SLIDERS
 
@@ -676,7 +677,7 @@ if(panel1Effect === "Glitch" && panel2Effect === "Glitch" && panel3Effect != "Gl
   }
 }
 //panel 1 and 3
-if(panel1Effect === "Glitch" && panel2Effect === "Glitch" && panel3Effect === "Glitch"){
+if(panel1Effect === "Glitch" && panel2Effect != "Glitch" && panel3Effect === "Glitch"){
   if(timeCode >= panel1Start && timeCode <= panel1End){
     glitchActive();
   }
@@ -768,7 +769,7 @@ if(panel1Effect === "Saturate" && panel2Effect === "Saturate" && panel3Effect !=
   }
 }
 //panel 1 and 3
-if(panel1Effect === "Saturate" && panel2Effect === "Saturate" && panel3Effect === "Saturate"){
+if(panel1Effect === "Saturate" && panel2Effect != "Saturate" && panel3Effect === "Saturate"){
   if(timeCode >= panel1Start && timeCode <= panel1End){
     saturateActive();
   }
@@ -867,7 +868,7 @@ for(var j=0;j<3;j++){
       video.time(eval(panel1StartEnd[0]));
       //console.log(stutter1Counter);
     } 
-    if(stutter1Counter > 4){
+    if(stutter1Counter > stutterNum1.val() - 1){
       stutter1Counter = 0;
       stutter1On = false;
     }
@@ -885,7 +886,7 @@ if(panel2Effect === "Stutter"){
       video.time(eval(panel2StartEnd[0]));
       //console.log(stutter2Counter);
     } 
-    if(stutter2Counter > 4){
+    if(stutter2Counter > stutterNum2.val() - 1){
       stutter2Counter = 0;
       stutter2On = false;
     }
@@ -903,7 +904,7 @@ if(panel3Effect === "Stutter"){
       video.time(eval(panel3StartEnd[0]));
       //console.log(stutter3Counter);
     } 
-    if(stutter3Counter > 4){
+    if(stutter3Counter > stutterNum3.val() - 1){
       stutter3Counter = 0;
       stutter3On = false;
     }
@@ -1156,11 +1157,29 @@ function slowClick(){
 
 //SECTION 2.5.4: Stutter effect sliders
 function stutterAdd(){
-  makeSliderDrop(event,"Stutter","Stutter",0.05,"#27ae60");
+  stutterClick();
 }
 
 function stutterClick(){
-  makeSlider("Stutter","Stutter",0.05,"#27ae60");
+  makeSlider("Stutter","Stutter (<input class='stutterNum' value='3'>)",0.05,"#27ae60");
+  if(panel1Effect === "Stutter" && stutter1Filled === false){
+    stutter1Filled = true;
+    stutterNum1 = $('.effectPanel1').find('.stutterNum').stepper({
+      limit:[1,6]
+    }); 
+  }
+  if(panel2Effect === "Stutter" && stutter2Filled === false){
+    stutter2Filled = true;
+    stutterNum2 = $('.effectPanel2').find('.stutterNum').stepper({
+      limit:[1,6]
+    }); 
+  }
+  if(panel3Effect === "Stutter" && stutter3Filled === false){
+    stutter3Filled = true;
+    stutterNum3 = $('.effectPanel3').find('.stutterNum').stepper({
+      limit:[1,6]
+    }); 
+  }  
 }
 
 
@@ -1170,16 +1189,19 @@ $(document).on("click",".deleteEffect",function(){
 
   if($(this).parent().attr("id") === "effectPanel1"){
     panel1Filled = false;
+    stutter1Filled = false;
     panel1Effect = "";
     $(".effectPanel1").html("<span class='effectName'>Effect 1</span>");
   }
   else if($(this).parent().attr("id") === "effectPanel2"){
     panel2Filled = false;
+    stutter2Filled = false;
     panel2Effect = "";
     $(".effectPanel2").html("<span class='effectName'>Effect 2</span>");
   }
   else if($(this).parent().attr("id") === "effectPanel3"){
     panel3Filled = false;
+    stutter3Filled = false;
     panel3Effect = "";
     $(".effectPanel3").html("<span class='effectName'>Effect 3</span>");
   }

@@ -52,7 +52,7 @@ $txt = "
 <div class='search-bar'>
 
 <div class='col-md-2 col-sm-2 col-xs-2'>
-<a href='../create.php' target='_self'><img class='logo' src='../css/logo.png'/></a>
+<a href='../index.php' target='_self'><img class='logo' src='../css/logo.png'/></a>
 </div>
 
 <div class='col-lg-8 col-md-8 col-sm-8 col-xs-8'>

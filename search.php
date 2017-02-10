@@ -8,7 +8,7 @@
 <meta id="theme-color" name="theme-color" content="#fff">
 
 
-<title>Fan Funhouse</title>
+<title>Search - Fan Funhouse</title>
 
 
 
@@ -32,7 +32,7 @@
 <div class="search-bar">
 
 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-<a href="create.php" target="_self"><img class="logo" src="css/logo.png"/></a>
+<a href="index.php" target="_self"><img class="logo" src="css/logo.png"/></a>
 </div>
 
 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -71,7 +71,7 @@ if(preg_match("/^[  a-zA-Z]+/", $_POST['name'])){
 	//query the database table
 	
 	//SELECT * FROM FreeformWeb for server
-	$sql = "SELECT * FROM FreeformVids
+	$sql = "SELECT * FROM FreeformWeb
  	WHERE author LIKE '%{$name}%'
  	OR title LIKE '%{$name}%' 
  	OR keywords LIKE '%{$name}%' ";
@@ -88,9 +88,9 @@ if(preg_match("/^[  a-zA-Z]+/", $_POST['name'])){
  	echo "
 
 
-	<div class='search-result col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-	<div class='search-result card'>
-	  	<video class='searchVid' controls loop>
+	<div class='search-result col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+	<div class='card search-result'>
+	  	<video class='searchVid myVideo' controls loop>
 		<source src='freeform/videos/test{$urlnum}.webm' type='video/webm'>
 		</video>
 	  <div class='search-result card-block'>
