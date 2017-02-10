@@ -138,7 +138,7 @@ fwrite($fPage, $txt);
 fclose($fPage);
 
 //SQL
-$db = mysqli_connect ("db.iac.gatech.edu",  "dsinger_fanfun", "EuICYOFGYFVuvMmv","dsinger_fanfun") or die ('I cannot connect to the database because: ' . mysqli_error()); 
+$db = mysqli_connect ("xxxxxxxx",  "xxxxxxxx", "xxxxxxxx","xxxxxxxx") or die ('I cannot connect to the database because: ' . mysqli_error()); 
 
 if (mysqli_connect_errno())
   {
