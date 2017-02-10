@@ -68,9 +68,10 @@ font-family: 'Source Code Pro', monospace;
 }
 
 .create-page, .community-page{
-text-decoration: underline;
--moz-text-decoration-color: #F40B0B; /* Code for Firefox */
-text-decoration-color: #F40B0B;	
+/*text-decoration: underline;
+-moz-text-decoration-color: #F40B0B; 
+text-decoration-color: #F40B0B;	*/
+border-bottom: 2px solid #F40B0B;
 }
 
 
@@ -131,30 +132,6 @@ margin-bottom: 20px;
 	
 }
 
-.search-result .card{
-width:100% !important;
-min-width: 320px;
-display:block;
-margin-left: auto;
-margin-right: auto;
-}
-
-.search-result .searchVid{
-width:320px;
-height:240px;
-display:block;
-margin-left: auto;
-margin-right: auto;
-border-radius: 2px;
-}
-
-.search-result .card-title{
-font-size: 16px;
-}
-
-.search-result .card-text{
-font-size: 12px;
-}
 
 .social-share{
 	margin-left: 10px;
@@ -200,7 +177,7 @@ font-size: 12px;
 
 
 
-#myVideo{
+#myVideo, .myVideo{
 	width:100% !important;
 	max-width:400px !important;
 	max-height:300px !important;
@@ -227,4 +204,30 @@ font-size: 22px;
 
 .published .card-text{
 font-size: 16px;
+}
+
+.search-result .card{
+width: 100% !important;	
+min-width: 330px !important;
+max-width:400px !important; 
+display:block;
+margin-left: auto;
+margin-right: auto;
+}
+
+.search-result .searchVid{
+width:320px;
+height:240px;
+display:block;
+margin-left: auto;
+margin-right: auto;
+border-radius: 2px;
+}
+
+.search-result .card-title{
+font-size: 16px;
+}
+
+.search-result .card-text{
+font-size: 12px;
 }
