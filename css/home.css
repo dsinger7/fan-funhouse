@@ -3,10 +3,30 @@ font-family: 'Roboto', sans-serif;
 background-image: linear-gradient(-90deg, rgba(255,255,255,0.59) 0%, rgba(227,219,25,0.63) 14%, rgba(21,246,209,0.68) 30%, rgba(12,255,3,0.66) 46%, rgba(193,2,251,0.65) 61%, rgba(233,10,10,0.65) 77%, rgba(6,33,255,0.64) 93%, rgba(227,227,227,0.64) 100%);
 margin: 0;
 padding: 1em;
+margin-bottom:80px;
 }
 
 
+html {
+position: relative;
+min-height: 100%;
+}
 
+footer {
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 50px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+footer a {
+	color: #0275d8;
+}
 
 .avatar{
 width:40px;
@@ -18,12 +38,13 @@ margin-right:auto;
 
 .btn-default{
 	width:50px;
+	background: #A7A7A7;
 }
 
 .btn-primary{
 box-shadow: 2px 2px 4px #888888;
 border-radius:2px;
-font-weight: 300;
+font-weight: 400;
 font-size: 20px;
 }
 
@@ -33,7 +54,7 @@ font-size: 20px;
 }
 
 .card{
-width:90%;
+width:80%;
 display:block;
 margin-left: auto;
 margin-right: auto;

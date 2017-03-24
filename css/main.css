@@ -38,6 +38,12 @@ body {
 
 .btn-default{
   box-shadow: 0px 0px 0px #888888 !important;
+  background: #A7A7A7;
+  width:50px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
 }
 
 .btn-danger{
@@ -160,14 +166,15 @@ box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 #editStatus{
   padding: 10px;
   border-radius: 5px;
-  background: #000000;
+  /*background: #000000;*/
+  border: solid 1px black;
   display: block;
   margin-left: auto;
   margin-right: auto;
   font-family: 'Roboto', sans-serif;
-  color: #fff;
+  color: #000000;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   /* width:90%; */
   width:320px;
 }
@@ -273,6 +280,19 @@ margin-bottom: 20px;
   font-size:10px;
 }
 
+/*SLIDER HANDLES SMALLER*/
+
+.noUi-horizontal .noUi-handle {
+  width: 20px !important;
+}
+
+.noUi-handle:before, .noUi-handle:after {
+  left: 6px !important;
+}
+
+.noUi-handle:after {
+  left: 11px !important;
+}
 
 .noUi-handle{
   border: 1px solid #dddddd !important;
@@ -318,7 +338,8 @@ progress[value]::-webkit-progress-bar {
 }
 
 progress[value]::-webkit-progress-value {
-  background-color: #00e676;
+  /*background-color: #00e676;*/
+  background-color:  #31e4ea;
 }
 
 #progress1, #progress2, #progress3{
@@ -420,6 +441,10 @@ margin-bottom: 20px;
   width:30px;
 }
 
+#tags {
+  width:233px;
+}
+
 .timelineEnd{
   float:right;
   font-size:16px;
@@ -467,6 +492,10 @@ font-weight: 300;
   display:block;
   margin-left: auto;
   margin-right: auto;
+}
+
+#vidName {
+  width:180px;
 }
 
 .ui-btn{

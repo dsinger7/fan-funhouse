@@ -104,6 +104,10 @@
 <p><span id="s1">record </span>&#10142; <span id="s2">edit </span>
 </div> 
 
+<div id="browserMessage" style="color:white; display:none">
+ <p>Due to experimental features, Fan Funhouse requires Google Chrome.
+<br><br>
+</div>
 
 <div class="step1"> 
 
@@ -169,9 +173,9 @@ Status: Waiting for Recording
 
 <div class="card card-s2C">
 <div id="publish-box">
-<p><b>Video Name:</b> <input id="vidName" type="text" placeholder="Enter video name..."/>
-<p><b>Author Name:</b> <input id="authorName" type="text" placeholder="Enter author name..."/>
-<p><b>Tags:</b> <input id="tags" type="text" placeholder="use,commas,to,separate"/> 
+<p><b>Video Name:</b> <input id="vidName" type="text" maxlength="5sf0" placeholder="Enter video name..."/>
+<p><b>Author Name:</b> <input id="authorName" type="text" maxlength="30" placeholder="Enter author name..."/>
+<p><b>Tags:</b> <input id="tags" type="text" maxlength="80" placeholder="use,commas,to,separate,tags"/> 
 <br><br>
 <button id="publish" class="ui-button btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Publish your video to the Fan Funhouse website!">Publish</button>
 

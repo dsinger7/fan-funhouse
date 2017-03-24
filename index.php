@@ -83,32 +83,42 @@ community
 <div class="row">
 
 <div class="col-md-6 col-sm-6 col-xs-12">
-<div class="card">
+<div class="create card">
 <img class="card-img-top" src="css/freeform.png" alt="freeform"/>
 <div class="card-block">
 <h4 class="card-title">Freeform</h4>
 <p class="card-text">Remix your video with classic Tim and Eric effects.</p>
-<a href="freeform.php" class="btn btn-primary" target="_self">Get Started</a>
+<a href="freeform.php" class="btn btn-primary" target="_self">Start Here</a>
 </div>
 </div>
 </div>
 
 <div class="col-md-6 col-sm-6 col-xs-12">
-<div class="card">
+<div class="create card">
 <img class="card-img-top" src="css/brule.png" alt="Brule's Rules"/>
 <div class="card-block">
 <h4 class="card-title">Brule's Rules</h4>
 <p class="card-text">Step onto the Channel 5 set for a word of advice.</p>
-<a href="#" class="btn btn-primary disabled" aria-disabled="true">Get Started</a>
+<a href="#" class="btn btn-primary disabled" aria-disabled="true">Start Here</a>
 </div>
 </div>
 </div>
+
 
 
 </div><!--END ROW-->	
 
 
 </div><!--END COL-->
+
+
+
+<footer>
+<div class="container">  
+<p>Fan Funhouse is brought to you by <a href="https://dansinger.xyz" target="_blank">Dan Singer</a>, a graduate student in Georgia Tech's <a href="dm.lmc.gatech.edu" target="_blank">Digital Media</a> program. This site is not affiliated with Tim and Eric, Adult Swim, Turner, or any related companies.
+</div>
+</footer>
+
 
 
 </div><!--END MAIN CONTAINER-->

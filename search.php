@@ -66,7 +66,7 @@ if(preg_match("/^[  a-zA-Z]+/", $_POST['name'])){
 	//echo  "<p>yes3</p>";
 	$name = $_POST['name'];
 	//connect to the database
-	$db = mysqli_connect ("xxxxxxxx",  "xxxxxxxx", "xxxxxxxx","xxxxxxxx") or die ('I cannot connect to the database because: ' . mysql_error()); 
+	$db = mysqli_connect ("db.iac.gatech.edu",  "dsinger_fanfun", "EuICYOFGYFVuvMmv","dsinger_fanfun") or die ('I cannot connect to the database because: ' . mysql_error()); 
 	//select database
 	//query the database table
 	
@@ -88,7 +88,7 @@ if(preg_match("/^[  a-zA-Z]+/", $_POST['name'])){
  	echo "
 
 
-	<div class='search-result col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+	<div class='search-result col-lg-4 col-md-6 col-sm-12 col-xs-12'>
 	<div class='card search-result'>
 	  	<video class='searchVid myVideo' controls loop>
 		<source src='freeform/videos/test{$urlnum}.webm' type='video/webm'>

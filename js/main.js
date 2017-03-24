@@ -214,6 +214,9 @@ if(getBrowser() == "Chrome"){
   //var constraints = {"audio": false, "video": {  "mandatory": {  "minWidth": 320,  "maxWidth": 320, "minHeight": 240,"maxHeight": 240 }, "optional": [] } };//Chrome
 }else if(getBrowser() == "Firefox"){
   var constraints = {audio: true,video: {  width: { min: 320, ideal: 320, max: 1280 },  height: { min: 240, ideal: 240, max: 720 }}}; //Firefox
+  document.getElementById("browserMessage").style.display = "block";
+} else if (getBrowser() != "Chrome"){
+  document.getElementById("browserMessage").style.display = "block";
 }
 
 function errorCallback(error){
@@ -539,8 +542,8 @@ function step2(){
     reformat.source = hueSaturation;
 
 
-    repeat = seriously.effect('repeat');
-    repeat.source = src;
+    //repeat = seriously.effect('repeat');
+    //repeat.source = src;
     
     crop = seriously.effect('crop');
     crop.source = src;
@@ -576,7 +579,7 @@ function getDuration(){
     video.loop();
 
     timeReceived = true;
-    editStatus.innerHTML = ("Status: Ready to Edit");
+    editStatus.innerHTML = ("Status: Add Effects");
    
     var disableList = ["toggleVid","muteVid","publish","glitch","saturate","slow","stutter"];
     for(var i=0;i<disableList.length;i++){
@@ -855,6 +858,7 @@ for(var j=0;j<3;j++){
   }
 } */
 
+//Error handling: prevent user from setting count above 6 with typed input
 
   if(panel1Effect === "Stutter"){  
   if(stutter1On === false){
@@ -992,10 +996,10 @@ function makeSliderDrop(event,panelEffect,effectName,min,sliderColor){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = panelEffect;
-    $(".effectPanel1").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    $(".effectPanel1").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + (duration/5).toFixed(2) + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
-      start:[0,0.5],
+      start:[0,duration/5],
       tooltips: [ false, false ],
       step:0.01,
       connect:true,
@@ -1012,10 +1016,10 @@ function makeSliderDrop(event,panelEffect,effectName,min,sliderColor){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = panelEffect;
-      $(".effectPanel2").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      $(".effectPanel2").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + (duration/5).toFixed(2) + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
-        start:[0,0.5],
+        start:[0,duration/5],
         tooltips: [ false, false ],
         step:0.01,
         connect:true,
@@ -1032,10 +1036,10 @@ function makeSliderDrop(event,panelEffect,effectName,min,sliderColor){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = panelEffect;
-        $(".effectPanel3").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        $(".effectPanel3").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + (duration/5).toFixed(2) + "</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
-          start:[0,0.5],
+          start:[0,duration/5],
           tooltips: [ false, false ],
           step:0.01,
           connect:true,
@@ -1062,10 +1066,10 @@ function makeSlider(panelEffect,effectName,min,sliderColor){
   if(panel1Filled === false){
     panel1Filled = true;
     panel1Effect = panelEffect;
-    $(".effectPanel1").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + 0.5 + "</span>");
+    $(".effectPanel1").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider1'></div><progress id='progress1' value='0' min='0'></progress></div><span class='timelineStart start-1'>Start: 0.00</span><span class='timelineEnd end-1'>End: " + (duration/5).toFixed(2) + "</span>");
     newSlider1 = document.getElementById('newSlider1');
     noUiSlider.create(newSlider1, {
-      start:[0,0.5],
+      start:[0,duration/5],
       tooltips: [ false, false ],
       step:0.01,
       connect:true,
@@ -1082,10 +1086,10 @@ function makeSlider(panelEffect,effectName,min,sliderColor){
     if(panel2Filled === false){
       panel2Filled = true;
       panel2Effect = panelEffect;
-      $(".effectPanel2").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + 0.5 + "</span>");
+      $(".effectPanel2").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider2'></div><progress id='progress2' value='0' min='0'></progress></div><span class='timelineStart start-2'>Start: 0.00</span><span class='timelineEnd end-2'>End: " + (duration/5).toFixed(2) + "</span>");
       newSlider2 = document.getElementById('newSlider2');
       noUiSlider.create(newSlider2, {
-        start:[0,0.5],
+        start:[0,duration/5],
         tooltips: [ false, false ],
         step:0.01,
         connect:true,
@@ -1102,10 +1106,10 @@ function makeSlider(panelEffect,effectName,min,sliderColor){
       if(panel3Filled === false){
         panel3Filled = true;
         panel3Effect = panelEffect;
-        $(".effectPanel3").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + 0.5 + "</span>");
+        $(".effectPanel3").html("<span class='effectName'>" + effectName + "</span> <span class='deleteEffect'><i class='icon ion-ios-close'></i></span><div class='effect-timeline'><div id='newSlider3'></div><progress id='progress3' value='0' min='0'></progress></div><span class='timelineStart start-3'>Start: 0.00</span><span class='timelineEnd end-3'>End: " + (duration/5).toFixed(2) + "</span>");
         newSlider3 = document.getElementById('newSlider3');
         noUiSlider.create(newSlider3, {
-          start:[0,0.5],
+          start:[0,duration/5],
           tooltips: [ false, false ],
           step:0.01,
           connect:true,
@@ -1359,8 +1363,6 @@ var viewLink = "";
 
 // javascript function that uploads a blob to upload.php
 function uploadBlob(){
-    // create a blob here for testing
-    //var blob = new Blob(["i am a poo poo blast"]);  
     var reader = new FileReader();
     // this function is triggered once a call to readAsDataURL returns
     reader.onload = function(event){
